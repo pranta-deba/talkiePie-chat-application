@@ -30,16 +30,27 @@ export const userRegisterIntoDB = async (req, res) => {
       password: hashPassword,
       profileImage: req.body.gender === "male" ? profileBoy : profileGirl,
     });
-    
+
     if (newUser) {
-      const savedUser = await newUser.save();
-      res.send({ success: true, message: "User registered successfully." });
+      await newUser.save();
+      res.send({
+        success: true,
+        message: "User registered successfully.",
+        data: {
+          _id: newUser._id,
+          fullname: newUser.fullname,
+          username: newUser.username,
+          email: newUser.email,
+          gender: newUser.gender,
+          profileImage: newUser.profileImage,
+        },
+      });
     } else {
-      res
-        .status(400)
-        .send({ success: false, message: "Failed to register user." });
+      res.status(400).send({ success: false, message: "Invalid User Data" });
     }
   } catch (error) {
-    res.status(500).send({ success: false, message: "Server Error." });
+    res
+      .status(500)
+      .send({ success: false, message: "something want wrong!", error });
   }
 };
