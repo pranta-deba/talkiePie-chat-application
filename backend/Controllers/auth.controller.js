@@ -92,3 +92,16 @@ export const loginUserIntoDB = async (req, res) => {
       .send({ success: false, message: "something want wrong!", error });
   }
 };
+
+export const logOut = async (req, res) => {
+  try {
+    res.cookie("jwt", "", {
+      maxAge: 0,
+    });
+    res.status(200).send({ success: true, message: "Logout successfully." });
+  } catch (error) {
+    res
+      .status(500)
+      .send({ success: false, message: "something want wrong!", error });
+  }
+};
