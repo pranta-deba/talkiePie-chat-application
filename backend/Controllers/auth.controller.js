@@ -1,5 +1,6 @@
 import { User } from "../Models/user.model.js";
 import bcrypt from "bcryptjs";
+import { createToken } from "../utils/jwtToken.js";
 
 export const userRegisterIntoDB = async (req, res) => {
   try {
@@ -33,21 +34,23 @@ export const userRegisterIntoDB = async (req, res) => {
 
     if (newUser) {
       await newUser.save();
-      res.send({
-        success: true,
-        message: "User registered successfully.",
-        data: {
-          _id: newUser._id,
-          fullname: newUser.fullname,
-          username: newUser.username,
-          email: newUser.email,
-          gender: newUser.gender,
-          profileImage: newUser.profileImage,
-        },
-      });
+      createToken(newUser._id, res);
     } else {
       res.status(400).send({ success: false, message: "Invalid User Data" });
     }
+
+    res.send({
+      success: true,
+      message: "User registered successfully.",
+      data: {
+        _id: newUser._id,
+        fullname: newUser.fullname,
+        username: newUser.username,
+        email: newUser.email,
+        gender: newUser.gender,
+        profileImage: newUser.profileImage,
+      },
+    });
   } catch (error) {
     res
       .status(500)
