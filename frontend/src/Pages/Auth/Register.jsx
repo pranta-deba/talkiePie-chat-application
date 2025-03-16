@@ -33,8 +33,8 @@ const Register = () => {
             if (data.success) {
                 console.log(data)
                 toast.success(data?.message + ", please login" || "something went wrong!");
-                setLoading(false);
                 setDataIntoLocalStorage(data.data);
+                setLoading(false);
                 navigate('/login');
             } else {
                 toast.error(data?.message || "something went wrong!");

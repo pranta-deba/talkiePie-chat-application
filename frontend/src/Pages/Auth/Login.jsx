@@ -3,10 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { setDataIntoLocalStorage } from '../../utils/localStorage';
+import { useAuth } from '../../Contexts/AuthContext';
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { setUser } = useAuth()
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -30,8 +32,9 @@ const Login = () => {
             if (data.success) {
                 console.log(data)
                 toast.success(data.message);
-                setLoading(false);
                 setDataIntoLocalStorage(data.data || "something went wrong!");
+                setUser(data.data);
+                setLoading(false);
                 navigate('/');
             } else {
                 toast.error(data.message);
