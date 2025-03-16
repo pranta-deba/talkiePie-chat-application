@@ -2,10 +2,24 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Register = () => {
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const fullname = form.fullname.value;
+        const username = form.username.value;
+        const email = form.email.value;
+        const password = form.password.value;
+        const gander = form.gander.value;
+
+
+        console.log({ email, password, fullname, username, gander })
+    }
+
     return (
         <div className='min-h-screen flex justify-center items-center'>
             <div className="bg-fuchsia-200 flex items-center justify-center text-center dark:bg-gray-50 dark:text-gray-800">
-                <form className="flex flex-col w-full max-w-lg p-12 rounded shadow-lg dark:text-gray-800">
+                <form onSubmit={onSubmit} className="flex flex-col w-full max-w-lg p-12 rounded shadow-lg dark:text-gray-800">
                     <label htmlFor="fullname" className="self-start text-xs font-semibold">full name</label>
                     <input id="fullname" type="text" name='fullname' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
 
@@ -16,7 +30,7 @@ const Register = () => {
                     <input id="email" type="email" name='email' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
 
                     <label htmlFor="gander" className="self-start text-xs font-semibold">Gender</label>
-                    <select id='gander' className="select bg-transparent border-2 border-black my-2">
+                    <select id='gander' name='gander' className="select bg-transparent border-2 border-black my-2">
                         <option disabled={true}>Select...</option>
                         <option value={"male"}>Male</option>
                         <option value={"female"}>Female</option>
