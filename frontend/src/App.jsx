@@ -3,6 +3,7 @@ import './App.css'
 import Home from "./Pages/Home/Home";
 import Login from "./Pages/Auth/Login";
 import Register from "./Pages/Auth/Register";
+import { ToastContainer, Bounce } from 'react-toastify';
 
 function App() {
 
@@ -13,6 +14,19 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </>
   )
 }

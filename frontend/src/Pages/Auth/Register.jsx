@@ -5,15 +5,16 @@ const Register = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        const form = e.target;
-        const fullname = form.fullname.value;
-        const username = form.username.value;
-        const email = form.email.value;
-        const password = form.password.value;
-        const gander = form.gander.value;
+        const form = e?.target;
+        const fullname = form?.fullname?.value;
+        const username = form?.username?.value;
+        const email = form?.email?.value;
+        const password = form?.password?.value;
+        const confirmPassword = form?.confirmPassword?.value;
+        const gander = form?.gander?.value;
 
 
-        console.log({ email, password, fullname, username, gander })
+        console.log({ email, password, fullname, username, gander, confirmPassword })
     }
 
     return (
@@ -38,6 +39,9 @@ const Register = () => {
 
                     <label htmlFor="password" className="self-start mt-3 text-xs font-semibold">Password</label>
                     <input id="password" type="password" name='password' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
+
+                    <label htmlFor="confirmPassword" className="self-start mt-3 text-xs font-semibold">Confirm Password</label>
+                    <input id="confirmPassword" type="password" name='confirmPassword' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
 
                     <button type="submit" className="btn flex items-center justify-center h-12 px-6 mt-8 text-sm font-semibold rounded dark:bg-violet-600 dark:text-gray-50">Login</button>
                     <div className="flex justify-center mt-6 space-x-2 text-xs">
