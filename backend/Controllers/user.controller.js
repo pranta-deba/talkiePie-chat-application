@@ -26,7 +26,16 @@ export const getUserBySearch = async (req, res) => {
       message: "Users fetched successfully.",
       data: users,
     });
-    
+  } catch (error) {
+    console.error("Error get message:", error);
+    res
+      .status(500)
+      .send({ success: false, message: "something went wrong!", error });
+  }
+};
+
+export const getCurrentChatters = async (req, res) => {
+  try {
   } catch (error) {
     console.error("Error get message:", error);
     res
