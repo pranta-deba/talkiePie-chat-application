@@ -31,12 +31,16 @@ const Login = () => {
                 console.log(data)
                 toast.success(data.message);
                 setLoading(false);
-                setDataIntoLocalStorage(data.data);
+                setDataIntoLocalStorage(data.data || "something went wrong!");
                 navigate('/');
+            } else {
+                toast.error(data.message);
+                setLoading(false);
             }
         } catch (error) {
             console.log(error);
             setLoading(false);
+            toast.error(error?.response?.data?.message || "something went wrong!");
 
         }
     }
