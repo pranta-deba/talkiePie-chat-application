@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import dbConnect from "./DB/dbConnect.js";
 import { AuthRoute } from "./Routes/auth.route.js";
+import { MessageRoute } from "./Routes/message.route.js";
 const app = express();
 dotenv.config();
 const port = process.env.PORT || 3000;
@@ -9,6 +10,7 @@ app.use(express.json());
 
 // app route
 app.use("/api/auth", AuthRoute);
+app.use("/api/message", MessageRoute);
 
 app.get("/", (req, res) => {
   res.send("Server is running!");
