@@ -4,6 +4,7 @@ import dbConnect from "./DB/dbConnect.js";
 import { AuthRoute } from "./Routes/auth.route.js";
 import { MessageRoute } from "./Routes/message.route.js";
 import cookieParser from "cookie-parser";
+import { UserRoute } from "./Routes/user.route.js";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(cookieParser());
 // app route
 app.use("/api/auth", AuthRoute);
 app.use("/api/message", MessageRoute);
+app.use("/api/user", UserRoute);
 
 // root route
 app.get("/", (req, res) => {
