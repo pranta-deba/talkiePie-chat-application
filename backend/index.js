@@ -3,15 +3,22 @@ import dotenv from "dotenv";
 import dbConnect from "./DB/dbConnect.js";
 import { AuthRoute } from "./Routes/auth.route.js";
 import { MessageRoute } from "./Routes/message.route.js";
+import cookieParser from "cookie-parser";
+
 const app = express();
+
 dotenv.config();
+
 const port = process.env.PORT || 3000;
+
 app.use(express.json());
+app.use(cookieParser());
 
 // app route
 app.use("/api/auth", AuthRoute);
 app.use("/api/message", MessageRoute);
 
+// root route
 app.get("/", (req, res) => {
   res.send("Server is running!");
 });

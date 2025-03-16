@@ -1,11 +1,10 @@
 import { Conversation } from "../Models/conversation.model.js";
 import { Message } from "../Models/message.model.js";
 
-export const sentMessage = async () => {
-  console.log(req.user);
+export const sentMessage = async (req, res) => {
   try {
-    const { message } = request.body;
-    const { id: receiverId } = request.params;
+    const { message } = req.body;
+    const { id: receiverId } = req.params;
     const senderId = req.user._id;
 
     let chats = await Conversation.findOne({
@@ -26,7 +25,7 @@ export const sentMessage = async () => {
     });
 
     if (newMessages) {
-      chats.push(newMessages._id);
+      chats.messages.push(newMessages._id);
     }
 
     await Promise.all([chats.save(), newMessages.save()]);
