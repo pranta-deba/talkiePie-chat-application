@@ -38,3 +38,7 @@ export const sentMessage = async (req, res) => {
     console.error("Error sending message:", error);
   }
 };
+
+export const getMessages = async (req, res) => {
+    
+}
