@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
 
 const SideBar = () => {
+    const searchInputRef = useRef()
     const [searchInput, setSearchInput] = useState('');
     const [loading, setLoading] = useState(false);
     const [searchUsers, setSearchUsers] = useState([]);
@@ -52,19 +53,30 @@ const SideBar = () => {
             toast.error(error?.response?.data?.message || "something went wrong!");
         }
     }
+
+    //show which user is selected
     const handelUserClick = (user) => {
         setSetSelectedUserId(user._id);
     }
+
+    //back from search result
+    const handleSearchBack = () => {
+        setSearchUsers([]);
+        setSearchInput('');
+        searchInputRef.current.value = '';
+    }
+
 
     console.log({ searchUsers, chatUsers })
 
     return (
         <div className='min-h-screen w-full border-2 p-2'>
             <form onSubmit={handleSubmit} className="join">
-                <input onChange={(e) => setSearchInput(e.target.value)} className="input join-item" placeholder="name" />
+                <input ref={searchInputRef} onChange={(e) => setSearchInput(e.target.value)} className="input join-item" placeholder="name" />
                 <button className="btn join-item rounded-r-full">search</button>
             </form>
             <div className='divider px-2'></div>
+
             {searchUsers?.length > 0 ?
                 (<>
                     <div>
@@ -99,6 +111,9 @@ const SideBar = () => {
                             </div>
                         )
                         )}
+                    </div>
+                    <div>
+                        <button onClick={handleSearchBack} className='btn'>back</button>
                     </div>
                 </>) :
                 (<>
