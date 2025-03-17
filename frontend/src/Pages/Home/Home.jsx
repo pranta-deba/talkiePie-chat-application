@@ -4,7 +4,7 @@ import ChatContainer from './Components/ChatContainer';
 
 const Home = () => {
     return (
-        <div className='min-h-screen flex justify-center items-center gap-2 p-2'>
+        <div className='min-h-screen w-full flex justify-center items-center gap-2 p-2'>
             {/* side bar */}
             <div><SideBar /></div>
             {/* message container */}

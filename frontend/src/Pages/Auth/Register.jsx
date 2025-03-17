@@ -13,7 +13,7 @@ const Register = () => {
         setInputData({ ...inputData, [e.target.name]: e.target.value });
     }
 
-    const onSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         // validation
@@ -50,7 +50,7 @@ const Register = () => {
     return (
         <div className='min-h-screen flex justify-center items-center'>
             <div className="bg-fuchsia-200 flex items-center justify-center text-center dark:bg-gray-50 dark:text-gray-800">
-                <form onSubmit={onSubmit} className="flex flex-col w-full max-w-lg p-12 rounded shadow-lg dark:text-gray-800">
+                <form onSubmit={handleSubmit} className="flex flex-col w-full max-w-lg p-12 rounded shadow-lg dark:text-gray-800">
                     <label htmlFor="fullname" className="self-start text-xs font-semibold">full name</label>
                     <input onChange={handleInput} id="fullname" type="text" name='fullname' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
 
