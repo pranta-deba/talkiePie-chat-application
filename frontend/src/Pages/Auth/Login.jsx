@@ -32,7 +32,7 @@ const Login = () => {
             if (data.success) {
                 console.log(data)
                 toast.success(data.message);
-                setDataIntoLocalStorage(data.data || "something went wrong!");
+                setDataIntoLocalStorage(data.data);
                 setUser(data.data);
                 setLoading(false);
                 navigate('/');
