@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -7,6 +7,23 @@ const SideBar = () => {
     const [searchInput, setSearchInput] = useState('');
     const [loading, setLoading] = useState(false);
     const [searchUsers, setSearchUsers] = useState([]);
+    const [chatUsers, setChatUsers] = useState([]);
+
+    useEffect(() => {
+        const fetchChatData = async () => {
+            setLoading(true);
+            try {
+                const { data } = await axios.get('/api/user/current-chatters');
+                if (data.success && data.data.length > 0) {
+                    setChatUsers(data.data);
+                }
+            } catch (error) {
+                console.log(error);
+                toast.error(error?.response?.data?.message || "something went wrong!");
+            }
+        }
+        fetchChatData();
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -33,7 +50,7 @@ const SideBar = () => {
         }
     }
 
-    console.log(searchUsers)
+    console.log({ searchUsers, chatUsers })
 
     return (
         <div className='min-h-screen w-full border-2 p-2'>
@@ -42,6 +59,10 @@ const SideBar = () => {
                 <button className="btn join-item rounded-r-full">search</button>
             </form>
             <div className='divider px-2'></div>
+            {searchUsers?.length > 0 ?
+                (<></>) :
+                (<></>)
+            }
         </div>
     );
 };
