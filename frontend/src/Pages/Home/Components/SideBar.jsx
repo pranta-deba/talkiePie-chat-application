@@ -8,6 +8,7 @@ const SideBar = () => {
     const [loading, setLoading] = useState(false);
     const [searchUsers, setSearchUsers] = useState([]);
     const [chatUsers, setChatUsers] = useState([]);
+    const [selectedUserId, setSetSelectedUserId] = useState(null);
 
     useEffect(() => {
         const fetchChatData = async () => {
@@ -16,8 +17,10 @@ const SideBar = () => {
                 const { data } = await axios.get('/api/user/current-chatters');
                 if (data.success && data.data.length > 0) {
                     setChatUsers(data.data);
+                    setLoading(false);
                 }
             } catch (error) {
+                setLoading(false);
                 console.log(error);
                 toast.error(error?.response?.data?.message || "something went wrong!");
             }
@@ -49,6 +52,9 @@ const SideBar = () => {
             toast.error(error?.response?.data?.message || "something went wrong!");
         }
     }
+    const handelUserClick = (user) => {
+        setSetSelectedUserId(user._id);
+    }
 
     console.log({ searchUsers, chatUsers })
 
@@ -60,8 +66,85 @@ const SideBar = () => {
             </form>
             <div className='divider px-2'></div>
             {searchUsers?.length > 0 ?
-                (<></>) :
-                (<></>)
+                (<>
+                    <div>
+                        {searchUsers.map((user, index) => (
+                            <div key={user._id}>
+                                <div
+                                    onClick={() => handelUserClick(user)}
+                                    className={`flex gap-3 
+                                                items-center rounded 
+                                                p-2 py-1 cursor-pointer
+                                                ${selectedUserId === user?._id ? 'bg-sky-500' : ''
+                                        } `}>
+
+                                    {/* Socket is Online */}
+                                    <div
+                                    // className={`avatar ${isOnline[index] ? 'online' : ''}`}
+                                    >
+                                        <div className="w-12 rounded-full">
+                                            <img src={user?.profileImage} alt='user.img' />
+                                        </div>
+                                    </div>
+                                    <div className='flex flex-col flex-1'>
+                                        <p className='font-bold text-gray-950'>{user.username}</p>
+                                    </div>
+                                    {/* <div>
+                                                {newMessageUsers.receiverId === authUser._id && newMessageUsers.senderId === user._id ?
+                                                    <div className="rounded-full bg-green-700 text-sm text-white px-[4px]">+1</div> : <></>
+                                                }
+                                            </div> */}
+                                </div>
+                                <div className='divider divide-solid px-3 h-[1px]'></div>
+                            </div>
+                        )
+                        )}
+                    </div>
+                </>) :
+                (<>
+                    {
+                        chatUsers.length > 0 ? (<>
+                            <div>
+                                {chatUsers.map((user, index) => (
+                                    <div key={user._id}>
+                                        <div
+                                            onClick={() => handelUserClick(user)}
+                                            className={`flex gap-3 
+                                                items-center rounded 
+                                                p-2 py-1 cursor-pointer
+                                                ${selectedUserId === user?._id ? 'bg-sky-500' : ''
+                                                } `}>
+
+                                            {/* Socket is Online */}
+                                            <div
+                                            // className={`avatar ${isOnline[index] ? 'online' : ''}`}
+                                            >
+                                                <div className="w-12 rounded-full">
+                                                    <img src={user?.profileImage} alt='user.img' />
+                                                </div>
+                                            </div>
+                                            <div className='flex flex-col flex-1'>
+                                                <p className='font-bold text-gray-950'>{user.username}</p>
+                                            </div>
+                                            {/* <div>
+                                                {newMessageUsers.receiverId === authUser._id && newMessageUsers.senderId === user._id ?
+                                                    <div className="rounded-full bg-green-700 text-sm text-white px-[4px]">+1</div> : <></>
+                                                }
+                                            </div> */}
+                                        </div>
+                                        <div className='divider divide-solid px-3 h-[1px]'></div>
+                                    </div>
+                                )
+                                )}
+                            </div>
+                        </>) : (<>
+                            <div>
+                                <h1>you are alone!</h1>
+                                <h1>search user name to chat!</h1>
+                            </div>
+                        </>)
+                    }
+                </>)
             }
         </div>
     );
