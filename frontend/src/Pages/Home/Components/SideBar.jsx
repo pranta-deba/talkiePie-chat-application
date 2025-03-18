@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useAuth } from '../../../Contexts/AuthContext';
+import { removeDataFromLocalStorage } from '../../../utils/localStorage';
 
 
 const SideBar = () => {
+    const {user,setUser} = useAuth()
     const searchInputRef = useRef()
     const [searchInput, setSearchInput] = useState('');
     const [loading, setLoading] = useState(false);
@@ -67,10 +70,31 @@ const SideBar = () => {
     }
 
     // logout
-    const handelLogOut = () => {}
-
-
-    console.log({ searchUsers, chatUsers })
+    const handelLogOut = async() => {
+        const confirmLogout = window.prompt("type 'UserName' To LOGOUT");
+        if (confirmLogout === user.username) {
+            setLoading(true);
+            try {
+                const { data } = await axios.post('/api/auth/logout');
+                if (data.success) {
+                    console.log(data);
+                    toast.success(data.message);
+                    removeDataFromLocalStorage();
+                    setUser(null);
+                    setLoading(false);
+                } else {
+                    toast.error(data.message);
+                    setLoading(false);
+                }
+            } catch (error) {
+                console.log(error);
+                setLoading(false);
+                toast.error(error?.response?.data?.message || "something went wrong!");
+            }
+        }else {
+            toast.info("invalid username!")
+        }
+    }
 
     return (
         <div className='min-h-screen w-full border-2 p-2'>
