@@ -3,16 +3,18 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../../Contexts/AuthContext';
 import { removeDataFromLocalStorage } from '../../../utils/localStorage';
+import { useNavigate } from 'react-router-dom';
 
 
 const SideBar = () => {
-    const {user,setUser} = useAuth()
+    const { user, setUser } = useAuth()
     const searchInputRef = useRef()
     const [searchInput, setSearchInput] = useState('');
     const [loading, setLoading] = useState(false);
     const [searchUsers, setSearchUsers] = useState([]);
     const [chatUsers, setChatUsers] = useState([]);
     const [selectedUserId, setSetSelectedUserId] = useState(null);
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchChatData = async () => {
@@ -70,7 +72,7 @@ const SideBar = () => {
     }
 
     // logout
-    const handelLogOut = async() => {
+    const handelLogOut = async () => {
         const confirmLogout = window.prompt("type 'UserName' To LOGOUT");
         if (confirmLogout === user.username) {
             setLoading(true);
@@ -82,6 +84,7 @@ const SideBar = () => {
                     removeDataFromLocalStorage();
                     setUser(null);
                     setLoading(false);
+                    navigate("/login");
                 } else {
                     toast.error(data.message);
                     setLoading(false);
@@ -91,7 +94,7 @@ const SideBar = () => {
                 setLoading(false);
                 toast.error(error?.response?.data?.message || "something went wrong!");
             }
-        }else {
+        } else {
             toast.info("invalid username!")
         }
     }
@@ -186,9 +189,9 @@ const SideBar = () => {
                             </div>
                         </>)
                     }
-                     <div className='mt-auto px-1 py-1 flex'>
+                    <div className='mt-auto px-1 py-1 flex'>
                         <button onClick={handelLogOut} className='hover:bg-red-600  cursor-pointer hover:text-white rounded-lg btn'>
-                        Logout
+                            Logout
                         </button>
                     </div>
                 </>)
