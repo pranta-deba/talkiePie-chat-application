@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../../../Contexts/AuthContext';
 import { removeDataFromLocalStorage } from '../../../utils/localStorage';
 import { useNavigate } from 'react-router-dom';
+import userConversation from '../../../Zustands/userConversation';
 
 
 const SideBar = () => {
@@ -14,7 +15,11 @@ const SideBar = () => {
     const [searchUsers, setSearchUsers] = useState([]);
     const [chatUsers, setChatUsers] = useState([]);
     const [selectedUserId, setSetSelectedUserId] = useState(null);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+
+    const { messages, selectedConversation, setSelectedConversation } = userConversation();
+
+
 
     useEffect(() => {
         const fetchChatData = async () => {
@@ -61,6 +66,7 @@ const SideBar = () => {
 
     //show which user is selected
     const handelUserClick = (user) => {
+        setSelectedConversation(user);
         setSetSelectedUserId(user._id);
     }
 
