@@ -66,6 +66,9 @@ const SideBar = () => {
         searchInputRef.current.value = '';
     }
 
+    // logout
+    const handelLogOut = () => {}
+
 
     console.log({ searchUsers, chatUsers })
 
@@ -159,6 +162,11 @@ const SideBar = () => {
                             </div>
                         </>)
                     }
+                     <div className='mt-auto px-1 py-1 flex'>
+                        <button onClick={handelLogOut} className='hover:bg-red-600  cursor-pointer hover:text-white rounded-lg btn'>
+                        Logout
+                        </button>
+                    </div>
                 </>)
             }
         </div>
