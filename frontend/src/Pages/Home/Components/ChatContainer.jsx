@@ -66,7 +66,7 @@ const ChatContainer = ({ handelShowSidebar }) => {
                             )}
 
                             {!loading && messages?.length === 0 && (
-                                <p className='text-center text-white items-center'>Send a message to
+                                <p className='text-center  items-center'>Send a message to
                                     start Conversation</p>
                             )}
 
@@ -80,6 +80,15 @@ const ChatContainer = ({ handelShowSidebar }) => {
                                                 }`}>
                                                 {message?.message}
                                             </div>
+                                            <div className="chat-footer text-[10px] opacity-80 text-black">
+                                                {new Date(message?.createdAt).toLocaleDateString('en-IN', { timeZone: 'Asia/Dhaka' })}{' '}
+                                                {new Date(message?.createdAt).toLocaleTimeString('en-IN', {
+                                                    hour: 'numeric',
+                                                    minute: 'numeric',
+                                                    timeZone: 'Asia/Dhaka',
+                                                })}
+                                            </div>
+
                                         </div>
                                     </div>
                                 ))
