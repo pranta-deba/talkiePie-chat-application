@@ -56,7 +56,7 @@ const ChatContainer = ({ handelShowSidebar }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className='overflow-auto'>
+                        <div className='p-3 overflow-auto'>
 
                             {loading && (
                                 <div className="flex w-full h-full flex-col items-center justify-center 
@@ -69,6 +69,21 @@ const ChatContainer = ({ handelShowSidebar }) => {
                                 <p className='text-center text-white items-center'>Send a message to
                                     start Conversation</p>
                             )}
+
+                            {
+                                !loading && messages?.length > 0 && messages?.map((message) => (
+                                    <div className='text-white' key={message?._id}>
+                                        <div className={`chat ${message.senderId === user._id ? 'chat-end' : 'chat-start'}`}>
+                                            <div className='chat-image avatar'></div>
+                                            <div className={`chat-bubble ${message.senderId === user._id ? 'bg-sky-600' : ''
+
+                                                }`}>
+                                                {message?.message}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            }
 
                         </div>
                     </div>
