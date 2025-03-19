@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../../../Contexts/AuthContext';
 import userConversation from '../../../Zustands/userConversation';
 import axios from 'axios';
@@ -7,6 +7,15 @@ const ChatContainer = ({ handelShowSidebar }) => {
     const { user } = useAuth()
     const { messages, selectedConversation, setMessage, setSelectedConversation } = userConversation();
     const [loading, setLoading] = useState(false);
+    const lastMessageRef = useRef();
+    const [sending, setSending] = useState(false);
+    const [sendData, setSendData] = useState("");
+
+    useEffect(() => {
+        setTimeout(() => {
+            lastMessageRef?.current?.scrollIntoView({ behavior: "smooth" })
+        }, 100)
+    }, [messages])
 
     useEffect(() => {
         const getMessages = async () => {
@@ -24,6 +33,13 @@ const ChatContainer = ({ handelShowSidebar }) => {
 
         if (selectedConversation?._id) getMessages();
     }, [selectedConversation?._id, setMessage]);
+
+    const handelMessages = (e) => {
+        setSendData(e.target.value);
+    }
+
+
+    const handelSubmit = async (e) => { e.preventDefault(); }
 
     console.log(messages)
 
@@ -72,7 +88,7 @@ const ChatContainer = ({ handelShowSidebar }) => {
 
                             {
                                 !loading && messages?.length > 0 && messages?.map((message) => (
-                                    <div className='text-white' key={message?._id}>
+                                    <div className='text-white' key={message?._id} ref={lastMessageRef}>
                                         <div className={`chat ${message.senderId === user._id ? 'chat-end' : 'chat-start'}`}>
                                             <div className='chat-image avatar'></div>
                                             <div className={`chat-bubble ${message.senderId === user._id ? 'bg-sky-600' : ''
@@ -91,10 +107,22 @@ const ChatContainer = ({ handelShowSidebar }) => {
 
                                         </div>
                                     </div>
-                                ))
-                            }
+                                ))}
 
                         </div>
+                        <form onSubmit={handelSubmit} className='rounded-full text-black border'>
+                            <div className='w-full rounded-full flex items-center bg-white'>
+                                <input value={sendData} onChange={handelMessages} required id='message' type='text'
+                                    className='w-full bg-transparent outline-none px-4 rounded-full' />
+                                <button type='submit' className='btn'>
+                                    {sending ? <div className='loading loading-spinner'></div> :
+                                        <span className='cursor-pointer rounded-full  w-10 h-auto p-1'>
+                                            send
+                                        </span>
+                                    }
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </>)
             }
