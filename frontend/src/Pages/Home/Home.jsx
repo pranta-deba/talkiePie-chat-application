@@ -18,9 +18,13 @@ const Home = () => {
     return (
         <div className='min-h-screen w-full flex justify-center items-center gap-2 p-2'>
             {/* side bar */}
-            <div><SideBar handelUserSelect={handelUserSelect} /></div>
+            <div className={isSidebarVisible ? "" : 'hidden'}>
+                <SideBar handelUserSelect={handelUserSelect} />
+            </div>
             {/* message container */}
-            <div><ChatContainer handelShowSidebar={handelShowSidebar} /></div>
+            <div className={`${isSidebarVisible ? "" : 'hidden'} ${selectedUser ? "block" : 'hidden'}`}>
+                <ChatContainer handelShowSidebar={handelShowSidebar} />
+            </div>
         </div>
     );
 };
