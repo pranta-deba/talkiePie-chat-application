@@ -1,12 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../../Contexts/AuthContext';
 import userConversation from '../../../Zustands/userConversation';
+import axios from 'axios';
 
 const ChatContainer = ({ handelShowSidebar }) => {
     const { user } = useAuth()
-    const { messages, selectedConversation, setSelectedConversation } = userConversation();
+    const { messages, selectedConversation, setMessage, setSelectedConversation } = userConversation();
+    const [loading, setLoading] = useState(false);
 
-    console.log(selectedConversation)
+    useEffect(() => {
+        const getMessages = async () => {
+            setLoading(true);
+            try {
+                const { data } = await axios.get(`/api/message/${selectedConversation._id}`);
+                console.log(data)
+                setMessage(data.data);
+                setLoading(false);
+            } catch (error) {
+                console.log(error);
+                setLoading(false);
+            }
+        }
+
+        if (selectedConversation?._id) getMessages();
+    }, [selectedConversation?._id, setMessage]);
+
+    console.log(messages)
 
 
     return (
