@@ -56,6 +56,21 @@ const ChatContainer = ({ handelShowSidebar }) => {
                                 </div>
                             </div>
                         </div>
+                        <div className='overflow-auto'>
+
+                            {loading && (
+                                <div className="flex w-full h-full flex-col items-center justify-center 
+                gap-4 bg-transparent">
+                                    <div className="loading loading-spinner"></div>
+                                </div>
+                            )}
+
+                            {!loading && messages?.length === 0 && (
+                                <p className='text-center text-white items-center'>Send a message to
+                                    start Conversation</p>
+                            )}
+
+                        </div>
                     </div>
                 </>)
             }
