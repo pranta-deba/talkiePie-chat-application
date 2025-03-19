@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import userConversation from '../../../Zustands/userConversation';
 
 
-const SideBar = () => {
+const SideBar = ({ handelUserSelect }) => {
     const { user, setUser } = useAuth()
     const searchInputRef = useRef()
     const [searchInput, setSearchInput] = useState('');

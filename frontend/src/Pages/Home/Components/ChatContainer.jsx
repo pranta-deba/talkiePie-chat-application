@@ -2,7 +2,7 @@ import React from 'react';
 import { useAuth } from '../../../Contexts/AuthContext';
 import userConversation from '../../../Zustands/userConversation';
 
-const ChatContainer = () => {
+const ChatContainer = ({ handelShowSidebar }) => {
     const { user } = useAuth()
     const { messages, selectedConversation, setSelectedConversation } = userConversation();
 
