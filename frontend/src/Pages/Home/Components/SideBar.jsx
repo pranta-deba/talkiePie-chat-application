@@ -66,6 +66,7 @@ const SideBar = ({ handelUserSelect }) => {
 
     //show which user is selected
     const handelUserClick = (user) => {
+        handelUserSelect(user);
         setSelectedConversation(user);
         setSetSelectedUserId(user._id);
     }

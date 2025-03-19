@@ -18,11 +18,11 @@ const Home = () => {
     return (
         <div className='min-h-screen w-full flex justify-center items-center gap-2 p-2'>
             {/* side bar */}
-            <div className={isSidebarVisible ? "" : 'hidden'}>
+            <div className={`flex-auto py-2 md:flex ${isSidebarVisible ? '' : 'hidden'}`}>
                 <SideBar handelUserSelect={handelUserSelect} />
             </div>
             {/* message container */}
-            <div className={`${isSidebarVisible ? "" : 'hidden'} ${selectedUser ? "block" : 'hidden'}`}>
+            <div className={`flex-auto ${selectedUser ? '' : 'hidden md:flex'} bg-gray-200}`}>
                 <ChatContainer handelShowSidebar={handelShowSidebar} />
             </div>
         </div>
