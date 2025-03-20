@@ -54,7 +54,7 @@ const Register = () => {
                     <label htmlFor="fullname" className="self-start text-xs font-semibold">full name</label>
                     <input onChange={handleInput} id="fullname" type="text" name='fullname' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
 
-                    <label htmlFor="username" className="self-start text-xs font-semibold">full name</label>
+                    <label htmlFor="username" className="self-start text-xs font-semibold">username</label>
                     <input onChange={handleInput} id="username" type="text" name='username' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
 
                     <label htmlFor="email" className="self-start text-xs font-semibold">Email</label>

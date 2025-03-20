@@ -118,7 +118,6 @@ const ChatContainer = ({ handelShowSidebar }) => {
                                                     timeZone: 'Asia/Dhaka',
                                                 })}
                                             </div>
-
                                         </div>
                                     </div>
                                 ))}
