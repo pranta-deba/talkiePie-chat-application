@@ -31,8 +31,8 @@ export const sentMessage = async (req, res) => {
     await Promise.all([chats.save(), newMessages.save()]);
 
     // SOCKET.IO FUNCTIONS
-    res.status(403).send({
-      success: false,
+    res.status(200).send({
+      success: true,
       message: "Outgoing Message....",
       data: newMessages,
     });
