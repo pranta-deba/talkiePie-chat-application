@@ -5,8 +5,8 @@ import { AuthRoute } from "./Routes/auth.route.js";
 import { MessageRoute } from "./Routes/message.route.js";
 import cookieParser from "cookie-parser";
 import { UserRoute } from "./Routes/user.route.js";
+import { app } from "./Socket/socket.js";
 
-const app = express();
 
 dotenv.config();
 
