@@ -39,7 +39,18 @@ const ChatContainer = ({ handelShowSidebar }) => {
     }
 
 
-    const handelSubmit = async (e) => { e.preventDefault(); console.log(sendData)}
+    const handelSubmit = async (e) => {
+        e.preventDefault();
+        setSending(true);
+        try {
+            const { data } = await axios.get(`/api/message/send/${selectedConversation._id}`, { message: sendData });
+            console.log(data)
+            setSending(false);
+        } catch (error) {
+            console.log(error);
+            setSending(false);
+        }
+    }
 
     console.log(messages)
 
