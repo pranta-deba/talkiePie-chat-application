@@ -2,14 +2,27 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../../../Contexts/AuthContext';
 import userConversation from '../../../Zustands/userConversation';
 import axios from 'axios';
+import { useSocket } from '../../../Contexts/SocketContext';
+import notificationSound from "../../../assets/sound/notification.mp3"
 
 const ChatContainer = ({ handelShowSidebar }) => {
-    const { user } = useAuth()
     const { messages, selectedConversation, setMessage, setSelectedConversation } = userConversation();
+    const { socket } = useSocket();
+    const { user } = useAuth()
     const [loading, setLoading] = useState(false);
     const lastMessageRef = useRef();
     const [sending, setSending] = useState(false);
     const [sendData, setSendData] = useState("");
+
+    useEffect(() => {
+        socket?.on('newMessage', (message) => {
+            const audio = new Audio(notificationSound);
+            audio.play();
+            setMessage([...messages, message]);
+        });
+
+        return () => socket?.off("newMessage");
+    }, [socket, setMessage, messages]);
 
     useEffect(() => {
         setTimeout(() => {
