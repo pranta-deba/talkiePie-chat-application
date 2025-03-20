@@ -5,7 +5,7 @@ import { AuthRoute } from "./Routes/auth.route.js";
 import { MessageRoute } from "./Routes/message.route.js";
 import cookieParser from "cookie-parser";
 import { UserRoute } from "./Routes/user.route.js";
-import { app } from "./Socket/socket.js";
+import { app, server } from "./Socket/socket.js";
 
 
 dotenv.config();
@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
   res.send("Server is running!");
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
   dbConnect();
   console.log(`listening on port ${port}`);
 });
