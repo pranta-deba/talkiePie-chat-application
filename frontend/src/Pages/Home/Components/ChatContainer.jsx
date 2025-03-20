@@ -39,7 +39,7 @@ const ChatContainer = ({ handelShowSidebar }) => {
     }
 
 
-    const handelSubmit = async (e) => { e.preventDefault(); }
+    const handelSubmit = async (e) => { e.preventDefault(); console.log(sendData)}
 
     console.log(messages)
 
