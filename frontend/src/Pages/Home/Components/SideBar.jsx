@@ -113,6 +113,9 @@ const SideBar = ({ handelUserSelect }) => {
         handelUserSelect(user);
         setSelectedConversation(user);
         setSetSelectedUserId(user._id);
+        // remove from new message list
+        const newMessageUsersFiltered = newMessageUsers.filter(mgs => mgs.senderId !== user._id);
+        setNewMessageUsers(newMessageUsersFiltered);
     }
 
     //back from search result
@@ -189,6 +192,11 @@ const SideBar = ({ handelUserSelect }) => {
 
                                         }
                                     </div> */}
+                                    {
+                                        newMessageUsers?.length > 0 && newMessageUsers.find(mgs => mgs.receiverId === authUser._id && mgs.senderId === user._id) && selectedConversation?._id !== user?._id ?
+                                            <div className="rounded-full bg-green-700 text-sm text-white px-[4px]">+1</div>
+                                            : <></>
+                                    }
                                 </div>
                                 <div className='divider divide-solid px-3 h-[1px]'></div>
                             </div>
@@ -231,6 +239,11 @@ const SideBar = ({ handelUserSelect }) => {
                                                     <div className="rounded-full bg-green-700 text-sm text-white px-[4px]">+1</div> : <></>
                                                 }
                                             </div> */}
+                                            {
+                                                newMessageUsers?.length > 0 && newMessageUsers.find(mgs => mgs.receiverId === authUser._id && mgs.senderId === user._id) && selectedConversation?._id !== user?._id ?
+                                                    <div className="rounded-full bg-green-700 text-sm text-white px-[4px]">+1</div>
+                                                    : <></>
+                                            }   
                                         </div>
                                         <div className='divider divide-solid px-3 h-[1px]'></div>
                                     </div>
