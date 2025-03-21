@@ -22,9 +22,13 @@ const SideBar = ({ handelUserSelect }) => {
     const [newMessageUsers, setNewMessageUsers] = useState('');
 
 
-    // online users
+    // online chat users
     const nowOnline = chatUsers.map((user) => (user._id));
     const isOnline = nowOnline.map(userId => onlineUser.includes(userId));
+
+    // online search users
+    const nowOnlineSearchUser = searchUsers.map((user) => (user._id));
+    const isOnlineSearchUser = nowOnlineSearchUser.map(userId => onlineUser.includes(userId));
 
     // incoming new messages
     useEffect(() => {
@@ -101,7 +105,7 @@ const SideBar = ({ handelUserSelect }) => {
     // logout
     const handelLogOut = async () => {
         const confirmLogout = window.prompt("type 'UserName' To LOGOUT");
-        if (confirmLogout === user.username) {
+        if (confirmLogout === authUser.username) {
             setLoading(true);
             try {
                 const { data } = await axios.post('/api/auth/logout');
@@ -153,7 +157,7 @@ const SideBar = ({ handelUserSelect }) => {
                                             <img src={user?.profileImage} alt='user.img' />
                                         </div>
                                         {/* Socket is Online */}
-                                        {isOnline[index] && <div className='absolute top-1 right-1 w-2 h-2 rounded-full bg-green-600 border-1 border-white'></div>}
+                                        {isOnlineSearchUser[index] && <div className='absolute top-1 right-1 w-2 h-2 rounded-full bg-green-600 border-1 border-white'></div>}
                                     </div>
                                     <div className='flex flex-col flex-1'>
                                         <p className='font-bold text-gray-950'>{user.username}</p>
