@@ -9,7 +9,7 @@ import { useSocket } from '../../../Contexts/SocketContext';
 
 
 const SideBar = ({ handelUserSelect }) => {
-    const { user, setUser } = useAuth()
+    const { user: authUser, setUser } = useAuth()
     const searchInputRef = useRef()
     const [searchInput, setSearchInput] = useState('');
     const [loading, setLoading] = useState(false);
@@ -19,17 +19,25 @@ const SideBar = ({ handelUserSelect }) => {
     const navigate = useNavigate();
     const { messages, selectedConversation, setSelectedConversation } = userConversation();
     const { onlineUser, socket } = useSocket();
+    const [newMessageUsers, setNewMessageUsers] = useState('');
 
-    console.log({ onlineUser, socket })
 
     // online users
     const nowOnline = chatUsers.map((user) => (user._id));
     const isOnline = nowOnline.map(userId => onlineUser.includes(userId));
 
+    // incoming new messages
+    useEffect(() => {
+        socket?.on("newMessage", (newMessage) => {
+            setNewMessageUsers(newMessage)
+        })
+        return () => socket?.off("newMessage");
+    }, [socket, messages]);
+
+    console.log(newMessageUsers)
 
 
-
-
+    // current chats list get
     useEffect(() => {
         const fetchChatData = async () => {
             setLoading(true);
@@ -48,6 +56,8 @@ const SideBar = ({ handelUserSelect }) => {
         fetchChatData();
     }, [])
 
+
+    //  search users
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -78,6 +88,7 @@ const SideBar = ({ handelUserSelect }) => {
         handelUserSelect(user);
         setSelectedConversation(user);
         setSetSelectedUserId(user._id);
+        setNewMessageUsers('');
     }
 
     //back from search result
@@ -135,23 +146,23 @@ const SideBar = ({ handelUserSelect }) => {
                                                 p-2 py-1 cursor-pointer
                                                 ${selectedUserId === user?._id ? 'bg-sky-500' : ''
                                         } `}>
-
-                                    {/* Socket is Online */}
                                     <div
-                                    // className={`avatar ${isOnline[index] ? 'online' : ''}`}
+                                        className={`avatar`}
                                     >
                                         <div className="w-12 rounded-full">
                                             <img src={user?.profileImage} alt='user.img' />
                                         </div>
+                                        {/* Socket is Online */}
+                                        {isOnline[index] && <div className='absolute top-1 right-1 w-2 h-2 rounded-full bg-green-600 border-1 border-white'></div>}
                                     </div>
                                     <div className='flex flex-col flex-1'>
                                         <p className='font-bold text-gray-950'>{user.username}</p>
                                     </div>
-                                    {/* <div>
-                                                {newMessageUsers.receiverId === authUser._id && newMessageUsers.senderId === user._id ?
-                                                    <div className="rounded-full bg-green-700 text-sm text-white px-[4px]">+1</div> : <></>
-                                                }
-                                            </div> */}
+                                    <div>
+                                        {newMessageUsers?.receiverId === authUser._id && newMessageUsers.senderId === user._id ?
+                                            <div className="rounded-full bg-green-700 text-sm text-white px-[4px]">+1</div> : <></>
+                                        }
+                                    </div>
                                 </div>
                                 <div className='divider divide-solid px-3 h-[1px]'></div>
                             </div>
@@ -177,7 +188,7 @@ const SideBar = ({ handelUserSelect }) => {
                                                 } `}>
 
                                             <div
-                                                className={`avatar  ${isOnline[index] ? 'online' : ''}`}
+                                                className={`avatar`}
                                             >
                                                 <div className="w-12 rounded-full">
                                                     <img src={user?.profileImage} alt='user.img' />
@@ -189,11 +200,11 @@ const SideBar = ({ handelUserSelect }) => {
                                             <div className='flex flex-col flex-1'>
                                                 <p className='font-bold text-gray-950'>{user.username}</p>
                                             </div>
-                                            {/* <div>
-                                                {newMessageUsers.receiverId === authUser._id && newMessageUsers.senderId === user._id ?
+                                            <div>
+                                                {newMessageUsers?.receiverId === authUser._id && newMessageUsers.senderId === user._id ?
                                                     <div className="rounded-full bg-green-700 text-sm text-white px-[4px]">+1</div> : <></>
                                                 }
-                                            </div> */}
+                                            </div>
                                         </div>
                                         <div className='divider divide-solid px-3 h-[1px]'></div>
                                     </div>

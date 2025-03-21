@@ -68,8 +68,6 @@ const ChatContainer = ({ handelShowSidebar }) => {
         }
     }
 
-    console.log(messages)
-
 
     return (
         <div className='min-h-screen w-full border-2 p-2'>
