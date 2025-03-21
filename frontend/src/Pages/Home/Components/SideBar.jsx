@@ -5,6 +5,7 @@ import { useAuth } from '../../../Contexts/AuthContext';
 import { removeDataFromLocalStorage } from '../../../utils/localStorage';
 import { useNavigate } from 'react-router-dom';
 import userConversation from '../../../Zustands/userConversation';
+import { useSocket } from '../../../Contexts/SocketContext';
 
 
 const SideBar = ({ handelUserSelect }) => {
@@ -16,8 +17,16 @@ const SideBar = ({ handelUserSelect }) => {
     const [chatUsers, setChatUsers] = useState([]);
     const [selectedUserId, setSetSelectedUserId] = useState(null);
     const navigate = useNavigate();
-
     const { messages, selectedConversation, setSelectedConversation } = userConversation();
+    const { onlineUser, socket } = useSocket();
+
+    console.log({ onlineUser, socket })
+
+    // online users
+    const nowOnline = chatUsers.map((user) => (user._id));
+    const isOnline = nowOnline.map(userId => onlineUser.includes(userId));
+
+
 
 
 
@@ -167,13 +176,15 @@ const SideBar = ({ handelUserSelect }) => {
                                                 ${selectedUserId === user?._id ? 'bg-sky-500' : ''
                                                 } `}>
 
-                                            {/* Socket is Online */}
                                             <div
-                                            // className={`avatar ${isOnline[index] ? 'online' : ''}`}
+                                                className={`avatar  ${isOnline[index] ? 'online' : ''}`}
                                             >
                                                 <div className="w-12 rounded-full">
                                                     <img src={user?.profileImage} alt='user.img' />
                                                 </div>
+                                                {/* Socket is Online */}
+                                                {isOnline[index] && <div className='absolute top-1 right-1 w-2 h-2 rounded-full bg-green-600 border-1 border-white'></div>}
+
                                             </div>
                                             <div className='flex flex-col flex-1'>
                                                 <p className='font-bold text-gray-950'>{user.username}</p>
