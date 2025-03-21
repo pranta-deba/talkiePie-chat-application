@@ -80,3 +80,28 @@ export const getCurrentChatters = async (req, res) => {
       .send({ success: false, message: "something went wrong!", error });
   }
 };
+
+export const getUserById = async(req, res) => {
+  const userId = req.params?.id;
+  console.log(userId)
+  try {
+    const user = await User.findById(userId)
+     .select("-password")
+     .select("email");
+     if (!user) {
+      return res
+       .status(404)
+       .send({ success: false, message: "User not found." });
+    }
+    res.json({
+      success: true,
+      message: "User fetched successfully.",
+      data: user,
+    });
+  } catch (error) {
+    console.error("Error get message:", error);
+    res
+      .status(500)
+      .send({ success: false, message: "something went wrong!", error });
+  }
+};
