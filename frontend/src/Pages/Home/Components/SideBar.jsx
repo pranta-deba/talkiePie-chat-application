@@ -19,7 +19,7 @@ const SideBar = ({ handelUserSelect }) => {
     const navigate = useNavigate();
     const { messages, selectedConversation, setSelectedConversation } = userConversation();
     const { onlineUser, socket } = useSocket();
-    const [newMessageUsers, setNewMessageUsers] = useState('');
+    const [newMessageUsers, setNewMessageUsers] = useState([]);
 
 
     // online chat users
@@ -33,25 +33,33 @@ const SideBar = ({ handelUserSelect }) => {
     // incoming new messages
     useEffect(() => {
         socket?.on("newMessage", (newMessage) => {
-            setNewMessageUsers(newMessage);
-            console.log(newMessage, chatUsers);
+            console.log(newMessageUsers)
+            const existsNewMessage = newMessageUsers?.find(mgs => mgs.senderId === newMessage.senderId);
+            if (!existsNewMessage) {
+                setNewMessageUsers([newMessage, ...newMessageUsers]);
+            }
+            // setNewMessageUsers([newMessage, ...newMessageUsers.filter(oldMessages => oldMessages.senderId !== newMessage.senderId)]);
+
 
             const senderExists = chatUsers.find(user => user._id === newMessage.senderId);
             if (!senderExists) {
                 axios.get(`/api/user/${newMessage.senderId}`).then(({ data }) => {
                     if (data.success) {
-                        console.log(data)
-                        setChatUsers((prev) => [data.data, ...prev]);
+                        console.log(1)
+                        const latestUsers = chatUsers.filter(user => user._id !== newMessage.senderId);
+                        setChatUsers([data.data, ...latestUsers]);
                     }
                 }).catch(err => console.log(err, "new incoming message error.."));
             } else {
                 const latestUsers = chatUsers.filter(user => user._id !== newMessage.senderId);
                 setChatUsers([senderExists, ...latestUsers]);
+                console.log(2)
             }
         })
         return () => socket?.off("newMessage");
     }, [socket, messages]);
 
+    console.log(newMessageUsers)
 
 
     // current chats list get
@@ -105,7 +113,6 @@ const SideBar = ({ handelUserSelect }) => {
         handelUserSelect(user);
         setSelectedConversation(user);
         setSetSelectedUserId(user._id);
-        setNewMessageUsers('');
     }
 
     //back from search result
@@ -175,13 +182,13 @@ const SideBar = ({ handelUserSelect }) => {
                                     <div className='flex flex-col flex-1'>
                                         <p className='font-bold text-gray-950'>{user.username}</p>
                                     </div>
-                                    <div>
+                                    {/* <div>
                                         {newMessageUsers?.receiverId === authUser._id && newMessageUsers.senderId === user._id && selectedConversation?._id !== user?._id ?
                                             <div className="rounded-full bg-green-700 text-sm text-white px-[4px]">+1</div>
                                             : <></>
 
                                         }
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className='divider divide-solid px-3 h-[1px]'></div>
                             </div>
@@ -219,11 +226,11 @@ const SideBar = ({ handelUserSelect }) => {
                                             <div className='flex flex-col flex-1'>
                                                 <p className='font-bold text-gray-950'>{user.username}</p>
                                             </div>
-                                            <div>
+                                            {/* <div>
                                                 {newMessageUsers?.receiverId === authUser._id && newMessageUsers.senderId === user._id && selectedConversation?._id !== user?._id ?
                                                     <div className="rounded-full bg-green-700 text-sm text-white px-[4px]">+1</div> : <></>
                                                 }
-                                            </div>
+                                            </div> */}
                                         </div>
                                         <div className='divider divide-solid px-3 h-[1px]'></div>
                                     </div>

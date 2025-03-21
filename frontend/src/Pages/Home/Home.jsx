@@ -5,6 +5,7 @@ import ChatContainer from './Components/ChatContainer';
 const Home = () => {
     const [selectedUser, setSelectedUser] = useState(null);
     const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+    
 
     const handelUserSelect = (user) => {
         setSelectedUser(user);
