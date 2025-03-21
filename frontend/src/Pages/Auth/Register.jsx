@@ -55,7 +55,7 @@ const Register = () => {
                     <input onChange={handleInput} id="fullname" type="text" name='fullname' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
 
                     <label htmlFor="username" className="self-start text-xs font-semibold">username</label>
-                    <input onChange={handleInput} id="username" type="text" name='username' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
+                    <input autoComplete="username"  onChange={handleInput} id="username" type="text" name='username' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
 
                     <label htmlFor="email" className="self-start text-xs font-semibold">Email</label>
                     <input onChange={handleInput} id="email" type="email" name='email' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
@@ -68,10 +68,10 @@ const Register = () => {
                     </select>
 
                     <label htmlFor="password" className="self-start mt-3 text-xs font-semibold">Password</label>
-                    <input onChange={handleInput} id="password" type="password" name='password' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
+                    <input autoComplete="current-password" onChange={handleInput} id="password" type="password" name='password' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
 
                     <label htmlFor="confirmPassword" className="self-start mt-3 text-xs font-semibold">Confirm Password</label>
-                    <input onChange={handleInput} id="confirmPassword" type="password" name='confirmPassword' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
+                    <input autoComplete="current-password" onChange={handleInput} id="confirmPassword" type="password" name='confirmPassword' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
 
                     <button disabled={loading} type="submit" className="btn flex items-center justify-center h-12 px-6 mt-8 text-sm font-semibold rounded dark:bg-violet-600 dark:text-gray-50">{loading ? "loading.." : "Register"}</button>
                     <div className="flex justify-center mt-6 space-x-2 text-xs">
