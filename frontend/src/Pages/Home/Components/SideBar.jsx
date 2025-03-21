@@ -33,12 +33,25 @@ const SideBar = ({ handelUserSelect }) => {
     // incoming new messages
     useEffect(() => {
         socket?.on("newMessage", (newMessage) => {
-            setNewMessageUsers(newMessage)
+            setNewMessageUsers(newMessage);
+            console.log(newMessage, chatUsers);
+
+            const senderExists = chatUsers.find(user => user._id === newMessage.senderId);
+            if (!senderExists) {
+                axios.get(`/api/user/${newMessage.senderId}`).then(({ data }) => {
+                    if (data.success) {
+                        console.log(data)
+                        setChatUsers((prev) => [data.data, ...prev]);
+                    }
+                }).catch(err => console.log(err, "new incoming message error.."));
+            } else {
+                const latestUsers = chatUsers.filter(user => user._id !== newMessage.senderId);
+                setChatUsers([senderExists, ...latestUsers]);
+            }
         })
         return () => socket?.off("newMessage");
     }, [socket, messages]);
 
-    console.log(newMessageUsers)
 
 
     // current chats list get
@@ -142,7 +155,7 @@ const SideBar = ({ handelUserSelect }) => {
                 (<>
                     <div>
                         {searchUsers.map((user, index) => (
-                            <div key={user._id}>
+                            <div key={index + 1}>
                                 <div
                                     onClick={() => handelUserClick(user)}
                                     className={`flex gap-3 
@@ -163,8 +176,10 @@ const SideBar = ({ handelUserSelect }) => {
                                         <p className='font-bold text-gray-950'>{user.username}</p>
                                     </div>
                                     <div>
-                                        {newMessageUsers?.receiverId === authUser._id && newMessageUsers.senderId === user._id ?
-                                            <div className="rounded-full bg-green-700 text-sm text-white px-[4px]">+1</div> : <></>
+                                        {newMessageUsers?.receiverId === authUser._id && newMessageUsers.senderId === user._id && selectedConversation?._id !== user?._id ?
+                                            <div className="rounded-full bg-green-700 text-sm text-white px-[4px]">+1</div>
+                                            : <></>
+
                                         }
                                     </div>
                                 </div>
@@ -182,7 +197,7 @@ const SideBar = ({ handelUserSelect }) => {
                         chatUsers.length > 0 ? (<>
                             <div>
                                 {chatUsers.map((user, index) => (
-                                    <div key={user._id}>
+                                    <div key={index + 2}>
                                         <div
                                             onClick={() => handelUserClick(user)}
                                             className={`flex gap-3 
@@ -205,7 +220,7 @@ const SideBar = ({ handelUserSelect }) => {
                                                 <p className='font-bold text-gray-950'>{user.username}</p>
                                             </div>
                                             <div>
-                                                {newMessageUsers?.receiverId === authUser._id && newMessageUsers.senderId === user._id ?
+                                                {newMessageUsers?.receiverId === authUser._id && newMessageUsers.senderId === user._id && selectedConversation?._id !== user?._id ?
                                                     <div className="rounded-full bg-green-700 text-sm text-white px-[4px]">+1</div> : <></>
                                                 }
                                             </div>
