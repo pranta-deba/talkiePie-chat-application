@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { setDataIntoLocalStorage } from '../../utils/localStorage';
-import { MessageCircle, Mail, Lock, ArrowRight, User, UserCheck } from 'lucide-react';
+import { MessageCircle, Mail, Lock, ArrowRight, User, UserCheck, EyeClosed, Eye } from 'lucide-react';
 
 const Register = () => {
     const [loading, setLoading] = useState(false);
@@ -16,7 +16,7 @@ const Register = () => {
         password: '',
         confirmPassword: '',
     });
-    console.log(formData)
+    const [eyePass, setEyePass] = useState({ pass: false, conPass: false });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -111,6 +111,7 @@ const Register = () => {
                                 <input
                                     type="email"
                                     required
+                                    autoComplete='email'
                                     className="input input-bordered w-full pl-10"
                                     placeholder="Email address"
                                     value={formData.email}
@@ -135,13 +136,24 @@ const Register = () => {
                                     <Lock className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
-                                    type="password"
+                                    type={eyePass.pass ? "text" : "password"}
                                     required
                                     className="input input-bordered w-full pl-10"
                                     placeholder="Password"
+                                    autoComplete='new-password'
                                     value={formData.password}
                                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                 />
+                                <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    {!eyePass.pass ?
+                                        <p onClick={() => setEyePass({ pass: !eyePass.pass, conPass: eyePass.conPass })} className='cursor-pointer'>
+                                            <EyeClosed className="h-5 w-5 text-gray-400" />
+                                        </p> :
+
+                                        <p onClick={() => setEyePass({ pass: !eyePass.pass, conPass: eyePass.conPass })} className='cursor-pointer'>
+                                            <Eye className="h-5 w-5 text-gray-400" />
+                                        </p>}
+                                </div>
                             </div>
 
                             <div className="relative">
@@ -149,13 +161,23 @@ const Register = () => {
                                     <Lock className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
-                                    type="password"
                                     required
                                     className="input input-bordered w-full pl-10"
                                     placeholder="Confirm Password"
+                                    autoComplete='current-password'
+                                    type={eyePass.conPass ? "text" : "password"}
                                     value={formData.confirmPassword}
                                     onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                                 />
+                                <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    {!eyePass.conPass ?
+                                        <p onClick={() => setEyePass({ pass: eyePass.pass, conPass: !eyePass.conPass })} className='cursor-pointer'>
+                                            <EyeClosed className="h-5 w-5 text-gray-400" />
+                                        </p> :
+                                        <p onClick={() => setEyePass({ pass: eyePass.pass, conPass: !eyePass.conPass })} className='cursor-pointer'>
+                                            <Eye className="h-5 w-5 text-gray-400" />
+                                        </p>}
+                                </div>
                             </div>
                         </div>
 

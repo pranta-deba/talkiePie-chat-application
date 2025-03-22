@@ -4,7 +4,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { setDataIntoLocalStorage } from '../../utils/localStorage';
 import { useAuth } from '../../Contexts/AuthContext';
-import { MessageCircle, Mail, Lock, ArrowRight } from 'lucide-react';
+import { MessageCircle, Mail, Lock, ArrowRight, Eye, EyeClosed } from 'lucide-react';
 
 
 const Login = () => {
@@ -13,6 +13,7 @@ const Login = () => {
         password: '',
     });
     const [loading, setLoading] = useState(false);
+    const [eyePass, setEyePass] = useState(false);
     const navigate = useNavigate();
     const { setUser } = useAuth()
 
@@ -71,6 +72,7 @@ const Login = () => {
                                 <input
                                     type="email"
                                     required
+                                    autoComplete='email'
                                     className="input input-bordered w-full pl-10"
                                     placeholder="Email address"
                                     value={formData.email}
@@ -83,13 +85,22 @@ const Login = () => {
                                     <Lock className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
-                                    type="password"
+                                    type={eyePass ? "text" : "password"}
                                     required
+                                    autoComplete='new-password'
                                     className="input input-bordered w-full pl-10"
                                     placeholder="Password"
                                     value={formData.password}
                                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                 />
+                                <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    {!eyePass ? <p onClick={() => setEyePass(!eyePass)} className='cursor-pointer'>
+                                        <EyeClosed className="h-5 w-5 text-gray-400" />
+                                    </p> :
+                                        <p onClick={() => setEyePass(!eyePass)} className='cursor-pointer'>
+                                            <Eye className="h-5 w-5 text-gray-400" />
+                                        </p>}
+                                </div>
                             </div>
                         </div>
 
