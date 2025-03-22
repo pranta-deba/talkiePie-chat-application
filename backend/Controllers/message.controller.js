@@ -44,7 +44,6 @@ export const sentMessage = async (req, res) => {
       data: newMessages,
     });
   } catch (error) {
-    console.error("Error sending message:", error);
     res
       .status(500)
       .send({ success: false, message: "something went wrong!", error });
@@ -69,7 +68,6 @@ export const getMessages = async (req, res) => {
       .status(200)
       .send({ success: true, message: "Messages fetched!", data: messages });
   } catch (error) {
-    console.error("Error get message:", error);
     res
       .status(500)
       .send({ success: false, message: "something went wrong!", error });

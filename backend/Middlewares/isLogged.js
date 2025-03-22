@@ -20,7 +20,6 @@ const isLogged = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    console.log("error from isLogged Middleware", error);
     res
       .status(403)
       .send({ success: false, message: "Something want wrong!", error });

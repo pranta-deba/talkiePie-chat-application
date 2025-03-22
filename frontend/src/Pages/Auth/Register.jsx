@@ -43,7 +43,6 @@ const Register = () => {
                 password: formData.password,
             });
             if (data.success) {
-                console.log(data)
                 toast.success(data?.message + ", please login" || "something went wrong!");
                 setDataIntoLocalStorage(data.data);
                 setLoading(false);

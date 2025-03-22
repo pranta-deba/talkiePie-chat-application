@@ -31,7 +31,7 @@ const ChatContainer = ({ handelShowSidebar }) => {
     useEffect(() => {
         socket?.on('newMessage', (message) => {
             const audio = new Audio(notificationSound);
-            audio.play().catch(e => console.log(e));
+            audio.play().catch(e => console.warn("audio sound not available!"));
             setMessage([...messages, message]);
         });
 

@@ -28,7 +28,6 @@ export const getUserBySearch = async (req, res) => {
       data: users,
     });
   } catch (error) {
-    console.error("Error get message:", error);
     res
       .status(500)
       .send({ success: false, message: "something went wrong!", error });
@@ -74,7 +73,6 @@ export const getCurrentChatters = async (req, res) => {
       data: users,
     });
   } catch (error) {
-    console.error("Error get message:", error);
     res
       .status(500)
       .send({ success: false, message: "something went wrong!", error });
@@ -83,7 +81,6 @@ export const getCurrentChatters = async (req, res) => {
 
 export const getUserById = async (req, res) => {
   const userId = req.params?.id;
-  console.log(userId);
   try {
     const user = await User.findById(userId)
       .select("-password")
@@ -99,7 +96,6 @@ export const getUserById = async (req, res) => {
       data: user,
     });
   } catch (error) {
-    console.error("Error get message:", error);
     res
       .status(500)
       .send({ success: false, message: "something went wrong!", error });
