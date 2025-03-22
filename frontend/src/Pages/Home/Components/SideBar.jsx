@@ -203,6 +203,7 @@ const SideBar = ({ handelUserSelect }) => {
                                             </div>
                                         )
                                         )}
+
                                     </>
                                     :
                                     // no chat users available

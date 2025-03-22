@@ -56,7 +56,7 @@ const Home = () => {
     return (
         <div className='flex h-screen bg-gray-50'>
             {/* side nav */}
-            <SIdeNav handelLogOut={handelLogOut} />
+            <SIdeNav handelLogOut={handelLogOut} loading={loading}/>
 
             {/* side bar */}
             <div className={`w-full md:w-80 bg-white md:border-r md:flex md:flex-col ${isSidebarVisible ? '' : 'hidden'}`}>

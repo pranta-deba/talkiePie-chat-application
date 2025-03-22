@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Modals from './Modals';
 import { useAuth } from '../../../Contexts/AuthContext';
 
-const SIdeNav = ({ handelLogOut }) => {
+const SIdeNav = ({ handelLogOut, loading }) => {
     const [profileModal, setProfileModal] = useState(false);
     const { user } = useAuth()
 
@@ -23,7 +23,7 @@ const SIdeNav = ({ handelLogOut }) => {
                 </div>
             </div>
             <div className="mt-auto">
-                <button onClick={handelLogOut} className="p-2 text-white hover:bg-blue-600 rounded-lg cursor-pointer" title='log out'>
+                <button disabled={loading} onClick={handelLogOut} className="p-2 text-white hover:bg-blue-600 rounded-lg cursor-pointer" title='log out'>
                     <LogOut size={20} />
                 </button>
             </div>
