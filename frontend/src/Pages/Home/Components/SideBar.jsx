@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { useAuth } from '../../../Contexts/AuthContext';
 import { removeDataFromLocalStorage } from '../../../utils/localStorage';
 import { useNavigate } from 'react-router-dom';
@@ -45,21 +45,17 @@ const SideBar = ({ handelUserSelect }) => {
             if (!senderExists) {
                 axios.get(`/api/user/${newMessage.senderId}`).then(({ data }) => {
                     if (data.success) {
-                        console.log(1)
                         const latestUsers = chatUsers.filter(user => user._id !== newMessage.senderId);
                         setChatUsers([data.data, ...latestUsers]);
                     }
-                }).catch(err => console.log(err, "new incoming message error.."));
+                }).catch(err => toast.error("Something went wrong!"));
             } else {
                 const latestUsers = chatUsers.filter(user => user._id !== newMessage.senderId);
                 setChatUsers([senderExists, ...latestUsers]);
-                console.log(2)
             }
         })
         return () => socket?.off("newMessage");
     }, [socket, messages]);
-
-    console.log(newMessageUsers)
 
 
     // current chats list get
@@ -74,7 +70,6 @@ const SideBar = ({ handelUserSelect }) => {
                 }
             } catch (error) {
                 setLoading(false);
-                console.log(error);
                 toast.error(error?.response?.data?.message || "something went wrong!");
             }
         }
@@ -86,23 +81,21 @@ const SideBar = ({ handelUserSelect }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        // validate input
         if (!searchInput) {
-            toast.warn("Please enter a name");
+            toast.error("Please enter a name");
             setLoading(false);
             return;
         }
         try {
             const { data } = await axios.get(`/api/user/search?search=${searchInput}`);
             if (data.success && data.data.length === 0) {
-                toast.info('User not found!');
+                toast.error('User not found!');
                 setLoading(false);
             } else {
                 setSearchUsers(data.data);
                 setLoading(false);
             }
         } catch (error) {
-            console.log(error);
             setLoading(false);
             toast.error(error?.response?.data?.message || "something went wrong!");
         }
@@ -133,23 +126,21 @@ const SideBar = ({ handelUserSelect }) => {
             try {
                 const { data } = await axios.post('/api/auth/logout');
                 if (data.success) {
-                    console.log(data);
                     toast.success(data.message);
                     removeDataFromLocalStorage();
                     setUser(null);
                     setLoading(false);
                     navigate("/login");
                 } else {
-                    toast.error(data.message);
+                    toast.error(data.message || "something went wrong!");
                     setLoading(false);
                 }
             } catch (error) {
-                console.log(error);
                 setLoading(false);
                 toast.error(error?.response?.data?.message || "something went wrong!");
             }
         } else {
-            toast.info("invalid username!")
+            toast.error("invalid username!")
         }
     }
 
@@ -243,7 +234,7 @@ const SideBar = ({ handelUserSelect }) => {
                                                 newMessageUsers?.length > 0 && newMessageUsers.find(mgs => mgs.receiverId === authUser._id && mgs.senderId === user._id) && selectedConversation?._id !== user?._id ?
                                                     <div className="rounded-full bg-green-700 text-sm text-white px-[4px]">+1</div>
                                                     : <></>
-                                            }   
+                                            }
                                         </div>
                                         <div className='divider divide-solid px-3 h-[1px]'></div>
                                     </div>
