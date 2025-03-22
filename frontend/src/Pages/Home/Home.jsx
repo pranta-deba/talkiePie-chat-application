@@ -14,7 +14,6 @@ const Home = () => {
     const [isSidebarVisible, setIsSidebarVisible] = useState(true);
     const { user, setUser } = useAuth();
     const [loading, setLoading] = useState(false);
-    const [menu, setMenu] = useState(false);
     const navigate = useNavigate()
 
 

@@ -67,7 +67,6 @@ const SideBar = ({ handelUserSelect }) => {
                 }
             } catch (error) {
                 setLoading(false);
-                toast.error(error?.response?.data?.message || "something went wrong!");
             }
         }
         fetchChatData();

@@ -4,7 +4,7 @@ import Modals from './Modals';
 import { useAuth } from '../../../Contexts/AuthContext';
 
 const SIdeNav = ({ handelLogOut, loading }) => {
-    const [profileModal, setProfileModal] = useState(true);
+    const [profileModal, setProfileModal] = useState(false);
     const { user } = useAuth()
 
 

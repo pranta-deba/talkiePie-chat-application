@@ -103,11 +103,11 @@ const Login = () => {
                         </button>
 
                         <div className="text-center text-sm space-y-2">
-                            <div>
+                            {/* <div>
                                 <Link to="/forgot-password" className="font-medium text-primary hover:text-primary-focus">
                                     Forgot your password?
                                 </Link>
-                            </div>
+                            </div> */}
                             <div>
                                 <span className="text-gray-600">Don't have an account?</span>
                                 {' '}

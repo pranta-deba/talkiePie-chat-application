@@ -1,9 +1,12 @@
 import { X } from "lucide-react";
 import React, { useState } from "react";
 import { useAuth } from "../../../Contexts/AuthContext";
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { setDataIntoLocalStorage } from "../../../utils/localStorage";
 
 const Modals = ({ setProfileModal }) => {
-    const { user } = useAuth();
+    const { user, setUser } = useAuth();
     const [activeTab, setActiveTab] = useState("profile");
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -17,8 +20,39 @@ const Modals = ({ setProfileModal }) => {
     };
 
     const handleUpdate = async () => {
-        console.log("Updated Data:", formData);
-        // Add API call here for updating user info
+        setLoading(true);
+
+        // validation
+        if (!formData.fullname || !formData.username || !formData.gender) {
+            toast.error("Please fill all fields");
+            setLoading(false);
+            return;
+        }
+        // same data : validation
+        if (
+            formData.fullname === user?.fullname &&
+            formData.username === user?.username &&
+            formData.gender === user?.gender
+        ) {
+            toast.error("No changes detected");
+            setLoading(false);
+            return;
+        }
+
+        try {
+            const { data } = await axios.put("/api/user/update", formData);
+            if (data.success) {
+                toast.success("Profile updated successfully");
+                setLoading(false);
+                setUser(data.data);
+                setDataIntoLocalStorage(data.data);
+                setActiveTab("profile");
+            }
+        } catch (error) {
+            toast.error("Failed to update profile");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
