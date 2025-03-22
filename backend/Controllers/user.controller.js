@@ -81,17 +81,17 @@ export const getCurrentChatters = async (req, res) => {
   }
 };
 
-export const getUserById = async(req, res) => {
+export const getUserById = async (req, res) => {
   const userId = req.params?.id;
-  console.log(userId)
+  console.log(userId);
   try {
     const user = await User.findById(userId)
-     .select("-password")
-     .select("email");
-     if (!user) {
+      .select("-password")
+      .select("email");
+    if (!user) {
       return res
-       .status(404)
-       .send({ success: false, message: "User not found." });
+        .status(404)
+        .send({ success: false, message: "User not found." });
     }
     res.json({
       success: true,
@@ -103,5 +103,34 @@ export const getUserById = async(req, res) => {
     res
       .status(500)
       .send({ success: false, message: "something went wrong!", error });
+  }
+};
+
+export const updatedUser = async (req, res) => {
+  const userId = req.user.id;
+  const { fullname, username, gender } = req.body;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { fullname, username, gender },
+      { new: true, select: "-password" }
+    );
+
+    if (!updatedUser) {
+      return res
+        .status(404)
+        .send({ success: false, message: "User not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "User updated successfully",
+      data: updatedUser,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .send({ success: false, message: "something want wrong!", error });
   }
 };
