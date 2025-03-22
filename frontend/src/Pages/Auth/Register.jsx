@@ -6,7 +6,6 @@ import { setDataIntoLocalStorage } from '../../utils/localStorage';
 import { MessageCircle, Mail, Lock, ArrowRight, User, UserCheck } from 'lucide-react';
 
 const Register = () => {
-    const [inputData, setInputData] = useState({});
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -17,10 +16,6 @@ const Register = () => {
         password: '',
         confirmPassword: '',
     });
-
-    const handleInput = (e) => {
-        setInputData({ ...inputData, [e.target.name]: e.target.value });
-    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -57,39 +52,6 @@ const Register = () => {
     }
 
     return (
-        // <div className='min-h-screen flex justify-center items-center'>
-        //     <div className="bg-fuchsia-200 flex items-center justify-center text-center dark:bg-gray-50 dark:text-gray-800">
-        //         <form onSubmit={handleSubmit} className="flex flex-col w-full max-w-lg p-12 rounded shadow-lg dark:text-gray-800">
-        //             <label htmlFor="fullname" className="self-start text-xs font-semibold">full name</label>
-        //             <input onChange={handleInput} id="fullname" type="text" name='fullname' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
-
-        //             <label htmlFor="username" className="self-start text-xs font-semibold">username</label>
-        //             <input autoComplete="username" onChange={handleInput} id="username" type="text" name='username' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
-
-        //             <label htmlFor="email" className="self-start text-xs font-semibold">Email</label>
-        //             <input onChange={handleInput} id="email" type="email" name='email' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
-
-        //             <label htmlFor="gander" className="self-start text-xs font-semibold">Gender</label>
-        //             <select onChange={handleInput} id='gender' name='gender' className="select bg-transparent border-2 border-black my-2">
-        //                 <option disabled={true}>Select...</option>
-        //                 <option value={"male"}>Male</option>
-        //                 <option value={"female"}>Female</option>
-        //             </select>
-
-        //             <label htmlFor="password" className="self-start mt-3 text-xs font-semibold">Password</label>
-        //             <input autoComplete="current-password" onChange={handleInput} id="password" type="password" name='password' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
-
-        //             <label htmlFor="confirmPassword" className="self-start mt-3 text-xs font-semibold">Confirm Password</label>
-        //             <input autoComplete="current-password" onChange={handleInput} id="confirmPassword" type="password" name='confirmPassword' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
-
-        //             <button disabled={loading} type="submit" className="btn flex items-center justify-center h-12 px-6 mt-8 text-sm font-semibold rounded dark:bg-violet-600 dark:text-gray-50">{loading ? "loading.." : "Register"}</button>
-        //             <div className="flex justify-center mt-6 space-x-2 text-xs">
-        //                 <span className="dark:text-gray-600">Already account?</span>
-        //                 <Link to={"/login"} className="dark:text-gray-600 underline">Login</Link>
-        //             </div>
-        //         </form>
-        //     </div>
-        // </div>
         <div className="min-h-screen w-full flex flex-col md:flex-row">
             <div className="w-full md:w-1/2 flex items-center justify-center p-8 bg-white">
                 <div className="w-full max-w-md space-y-8">
@@ -108,7 +70,7 @@ const Register = () => {
                     <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                         <div className="space-y-4">
                             <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
                                     <User className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
@@ -122,7 +84,7 @@ const Register = () => {
                             </div>
 
                             <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
                                     <UserCheck className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
@@ -136,7 +98,7 @@ const Register = () => {
                             </div>
 
                             <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
                                     <Mail className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
@@ -162,7 +124,7 @@ const Register = () => {
                             </select>
 
                             <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
                                     <Lock className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
@@ -176,7 +138,7 @@ const Register = () => {
                             </div>
 
                             <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
                                     <Lock className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
@@ -191,6 +153,7 @@ const Register = () => {
                         </div>
 
                         <button
+                            disabled={loading}
                             type="submit"
                             className="btn btn-primary w-full group"
                         >

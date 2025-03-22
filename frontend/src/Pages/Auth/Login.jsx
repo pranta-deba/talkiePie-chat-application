@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { setDataIntoLocalStorage } from '../../utils/localStorage';
 import { useAuth } from '../../Contexts/AuthContext';
 import { MessageCircle, Mail, Lock, ArrowRight, User, UserCheck } from 'lucide-react';
+
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -22,7 +23,7 @@ const Login = () => {
 
         // validation
         if (!formData.email || !formData.password) {
-            toast.warn('Please fill all fields');
+            toast.error('Please fill all fields');
             setLoading(false);
             return;
         }
@@ -36,13 +37,12 @@ const Login = () => {
                 setLoading(false);
                 navigate('/');
             } else {
-                toast.error(data.message);
+                toast.error(data.message || "something went wrong!");
                 setLoading(false);
             }
         } catch (error) {
             setLoading(false);
             toast.error(error?.response?.data?.message || "something went wrong!");
-
         }
     }
 
@@ -65,7 +65,7 @@ const Login = () => {
                     <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                         <div className="space-y-4">
                             <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
                                     <Mail className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
@@ -79,7 +79,7 @@ const Login = () => {
                             </div>
 
                             <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
                                     <Lock className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
@@ -94,6 +94,7 @@ const Login = () => {
                         </div>
 
                         <button
+                            disabled={loading}
                             type="submit"
                             className="btn btn-primary w-full group"
                         >

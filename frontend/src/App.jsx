@@ -5,6 +5,7 @@ import Login from "./Pages/Auth/Login";
 import Register from "./Pages/Auth/Register";
 import { ToastContainer, Bounce } from 'react-toastify';
 import AuthVerifiedRoute from "./Routes/AuthVerifiedRoute";
+import  { Toaster } from 'react-hot-toast';
 
 function App() {
 
@@ -29,6 +30,10 @@ function App() {
         pauseOnHover
         theme="light"
         transition={Bounce}
+      />
+      <Toaster
+        position="top-left"
+        reverseOrder={false}
       />
     </>
   )
