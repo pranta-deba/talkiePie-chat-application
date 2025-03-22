@@ -1,36 +1,28 @@
-import { LogOut, MessageSquare, Settings } from 'lucide-react';
+import { LogOut, MessageSquare, Settings, User } from 'lucide-react';
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import Modals from './Modals';
+import logo from "../../../assets/logo.png";
+import { useAuth } from '../../../Contexts/AuthContext';
 
 const SIdeNav = ({ handelLogOut }) => {
-    const [navActive, setNavActive] = useState('chats');
     const [profileModal, setProfileModal] = useState(false);
+    const { user } = useAuth()
 
-    const handleNavBgColor = (nav) => {
-        if (nav === 'profile') {
-            setNavActive(nav)
-            setProfileModal(true)
 
-        }
-        if (nav === 'chats') {
-            setNavActive(nav)
-        }
-    }
-    const handleClosedModel = (trigger) => {
-        setProfileModal(trigger);
-        setNavActive('chats');
-    }
 
     return (<>
-        <div className="w-16 bg-[#0f1729] flex flex-col items-center py-6 space-y-8">
+        <div className="w-16 bg-[#0f1729A4] flex flex-col items-center py-6 space-y-8">
             <div className="flex flex-col items-center space-y-8">
-                <button onClick={() => handleNavBgColor('chats')} className={`cursor-pointer p-2 text-white ${navActive === 'chats' ? "bg-blue-600" : 'hover:bg-blue-600'} rounded-lg`} title='Chats'>
+                <button className={`cursor-pointer p-2 text-white bg-blue-600 rounded-lg`} title='Chats'>
                     <MessageSquare size={20} />
                 </button>
-                <button onClick={() => handleNavBgColor('profile')} className={`cursor-pointer p-2 text-white ${navActive === 'profile' ? "bg-blue-600" : 'hover:bg-blue-600'} rounded-lg`} title='Profile'>
-                    <Settings size={20} />
-                </button>
+                <div onClick={() => setProfileModal(true)} className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center cursor-pointer">
+                    {
+                        !user?.profileImage ?
+                            <User size={20} className="text-gray-500" /> :
+                            <img src={user?.profileImage} alt='user.img' />
+                    }
+                </div>
             </div>
             <div className="mt-auto">
                 <button onClick={handelLogOut} className="p-2 text-white hover:bg-blue-600 rounded-lg cursor-pointer" title='log out'>
@@ -38,7 +30,7 @@ const SIdeNav = ({ handelLogOut }) => {
                 </button>
             </div>
         </div>
-        {profileModal && <Modals handleClosedModel={handleClosedModel} />}
+        {profileModal && <Modals setProfileModal={setProfileModal} />}
     </>
     );
 };
