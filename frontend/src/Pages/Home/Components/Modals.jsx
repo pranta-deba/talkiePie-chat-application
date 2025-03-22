@@ -1,7 +1,26 @@
-import { X } from 'lucide-react';
-import React from 'react';
+import { X } from "lucide-react";
+import React, { useState } from "react";
+import { useAuth } from "../../../Contexts/AuthContext";
 
 const Modals = ({ setProfileModal }) => {
+    const { user } = useAuth();
+    const [activeTab, setActiveTab] = useState("profile");
+    const [loading, setLoading] = useState(false);
+    const [formData, setFormData] = useState({
+        fullname: user?.fullname || "",
+        username: user?.username || "",
+        gender: user?.gender || "",
+    });
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleUpdate = async () => {
+        console.log("Updated Data:", formData);
+        // Add API call here for updating user info
+    };
+
     return (
         <div className="fixed inset-0 p-4 flex justify-center items-center w-full h-full z-[1000] overflow-auto">
             <div
@@ -10,27 +29,99 @@ const Modals = ({ setProfileModal }) => {
             ></div>
 
             <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative z-10">
+                {/* Modal Header */}
                 <div className="flex items-center pb-3 border-b border-gray-300">
-                    <h3 className="text-slate-900 text-xl font-semibold flex-1">Modal Title</h3>
+                    <h3 className="text-slate-900 text-xl font-semibold flex-1">
+                        {activeTab === "profile" ? "Profile Info" : "Edit Profile"}
+                    </h3>
                     <X
                         onClick={() => setProfileModal(false)}
                         className="w-5 h-5 cursor-pointer text-gray-400 hover:text-red-500"
                     />
                 </div>
 
-                <div className="my-6">
-                    <p className="text-slate-600 text-sm leading-relaxed">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor auctor arcu, at fermentum dui.
-                        Maecenas Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </p>
-                    <p className="text-slate-600 text-sm leading-relaxed mt-2">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor auctor arcu, at fermentum dui.
-                    </p>
-                    <p className="text-slate-600 text-sm leading-relaxed mt-2">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor auctor arcu, at fermentum dui.
-                    </p>
+                {/* Tabs */}
+                <div className="flex mt-4 border-b border-gray-300">
+                    <button
+                        className={`flex-1 py-2 text-sm font-medium ${activeTab === "profile"
+                            ? "border-b-2 border-blue-600 text-blue-600"
+                            : "text-gray-500"
+                            }`}
+                        onClick={() => setActiveTab("profile")}
+                    >
+                        Profile
+                    </button>
+                    <button
+                        className={`flex-1 py-2 text-sm font-medium ${activeTab === "edit"
+                            ? "border-b-2 border-blue-600 text-blue-600"
+                            : "text-gray-500"
+                            }`}
+                        onClick={() => setActiveTab("edit")}
+                    >
+                        Edit Profile
+                    </button>
                 </div>
 
+                {/* Profile Tab */}
+                {activeTab === "profile" && (
+                    <div className="my-6 text-center">
+                        <div className="w-24 h-24 mx-auto rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                            {user?.profileImage ? (
+                                <img src={user?.profileImage} alt="Profile" className="w-full h-full object-cover" />
+                            ) : (
+                                <span className="text-gray-500">No Image</span>
+                            )}
+                        </div>
+                        <h3 className="text-lg font-medium mt-3">{user?.fullname}</h3>
+                        <p className="text-sm text-gray-500">@{user?.username}</p>
+                        <p className="text-sm text-gray-500 mt-1">{user?.email}</p>
+                        <p className="text-sm text-gray-500 mt-1">Gender: {user?.gender || "Not specified"}</p>
+                    </div>
+                )}
+
+                {/* Edit Profile Tab */}
+                {activeTab === "edit" && (
+                    <div className="my-6">
+                        <div className="space-y-4">
+                            <div>
+                                <label className="text-sm text-gray-700">Full Name</label>
+                                <input
+                                    type="text"
+                                    name="fullname"
+                                    value={formData.fullname}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-2 border rounded-lg mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="text-sm text-gray-700">Username</label>
+                                <input
+                                    type="text"
+                                    name="username"
+                                    value={formData.username}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-2 border rounded-lg mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="text-sm text-gray-700">Gender</label>
+                                <select
+                                    name="gender"
+                                    value={formData.gender}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-2 border rounded-lg mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Modal Footer */}
                 <div className="border-t border-gray-300 pt-6 flex justify-end gap-4">
                     <button
                         onClick={() => setProfileModal(false)}
@@ -38,12 +129,15 @@ const Modals = ({ setProfileModal }) => {
                     >
                         Close
                     </button>
-                    <button
-                        type="button"
-                        className="px-4 py-2 rounded-lg text-white text-sm font-medium bg-blue-600 hover:bg-blue-700 active:bg-blue-600"
-                    >
-                        Save
-                    </button>
+                    {activeTab === "edit" && (
+                        <button
+                            disabled={loading}
+                            onClick={handleUpdate}
+                            className="px-4 py-2 rounded-lg text-white text-sm font-medium bg-blue-600 hover:bg-blue-700 active:bg-blue-600"
+                        >
+                            Update
+                        </button>
+                    )}
                 </div>
             </div>
         </div>
