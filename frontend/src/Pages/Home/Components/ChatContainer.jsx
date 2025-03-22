@@ -4,7 +4,7 @@ import userConversation from '../../../Zustands/userConversation';
 import axios from 'axios';
 import { useSocket } from '../../../Contexts/SocketContext';
 import notificationSound from "../../../assets/sound/notification.mp3"
-import { ArrowLeft, MessageSquare, Send, User } from 'lucide-react';
+import { ArrowLeft, MessageCircle, MessageSquare, Send, User } from 'lucide-react';
 
 const ChatContainer = ({ handelShowSidebar }) => {
     const { messages, selectedConversation, setMessage } = userConversation();
@@ -119,7 +119,7 @@ const ChatContainer = ({ handelShowSidebar }) => {
 
                         {/* messages load */}
                         {loading && (
-                            <div className="flex w-full h-full flex-col items-center justify-center 
+                            <div className="flex-1 flex w-full h-full flex-col items-center justify-center 
                 gap-4 bg-transparent">
                                 <div className="loading loading-spinner"></div>
                             </div>
@@ -127,8 +127,12 @@ const ChatContainer = ({ handelShowSidebar }) => {
 
                         {/* empty messages */}
                         {!loading && messages?.length === 0 && (
-                            <p className='text-center  items-center'>Send a message to
-                                start Conversation</p>
+                            <div className="flex-1 flex flex-col items-center justify-center h-full text-center">
+                                <MessageCircle className="w-12 h-12 text-gray-400" />
+                                <p className="text-lg text-gray-600 mt-2">
+                                    Send a message to start a conversation
+                                </p>
+                            </div>
                         )}
 
                         {/* messages */}

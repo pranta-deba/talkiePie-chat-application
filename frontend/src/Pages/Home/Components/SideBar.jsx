@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { useAuth } from '../../../Contexts/AuthContext';
 import userConversation from '../../../Zustands/userConversation';
 import { useSocket } from '../../../Contexts/SocketContext';
-import { ArrowLeft, Search, User } from 'lucide-react';
+import { ArrowLeft, Search, User, UserSearch } from 'lucide-react';
 
 
 const SideBar = ({ handelUserSelect }) => {
@@ -207,9 +207,14 @@ const SideBar = ({ handelUserSelect }) => {
                                     :
                                     // no chat users available
                                     <>
-                                        <div>
-                                            <h1>you are alone!</h1>
-                                            <h1>search user name to chat!</h1>
+                                        <div className="flex flex-col items-center justify-center h-full text-center">
+                                            <div className="bg-blue-100 p-4 rounded-full">
+                                                <UserSearch className="w-12 h-12 text-blue-500" />
+                                            </div>
+                                            <h1 className="text-2xl font-semibold text-gray-800 mt-4">
+                                                You are alone!
+                                            </h1>
+                                            <p className="text-gray-600 mt-2">Search for a username to start chatting</p>
                                         </div>
                                     </>
                             }
