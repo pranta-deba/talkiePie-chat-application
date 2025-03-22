@@ -4,7 +4,7 @@ import userConversation from '../../../Zustands/userConversation';
 import axios from 'axios';
 import { useSocket } from '../../../Contexts/SocketContext';
 import notificationSound from "../../../assets/sound/notification.mp3"
-import { ArrowLeft, User } from 'lucide-react';
+import { ArrowLeft, Send, User } from 'lucide-react';
 
 const ChatContainer = ({ handelShowSidebar }) => {
     const { messages, selectedConversation, setMessage } = userConversation();
@@ -92,6 +92,7 @@ const ChatContainer = ({ handelShowSidebar }) => {
                         </button>
                     </div>
 
+
                     {/* Messages */}
                     <div className="flex-1 overflow-y-auto p-4 space-y-4">
 
@@ -112,53 +113,40 @@ const ChatContainer = ({ handelShowSidebar }) => {
                         {/* messages */}
                         {
                             !loading && messages?.length > 0 && messages?.map((message) => (
-                                <div key={message?._id}>
-                                    
+                                <div key={message?._id} className={`flex ${message.senderId === user._id ? 'justify-end' : 'justify-start'}`} ref={lastMessageRef}>
+                                    <div
+                                        className={`max-w-[70%] p-3 rounded-lg ${message.senderId === user._id
+                                            ? 'bg-blue-600 text-white rounded-br-none'
+                                            : 'bg-white text-gray-800 rounded-bl-none'
+                                            }`}
+                                    >
+                                        <p className="text-sm">{message?.message}</p>
+                                        <p className={`text-[10px] mt-1 ${message.senderId === user._id ? 'text-blue-200' : 'text-gray-500'}`}>
+                                            {new Date(message?.createdAt).toLocaleDateString('en-IN', { timeZone: 'Asia/Dhaka' })}{' '}{new Date(message?.createdAt).toLocaleTimeString('en-IN', {
+                                                hour: 'numeric',
+                                                minute: 'numeric',
+                                                timeZone: 'Asia/Dhaka',
+                                            })}
+                                        </p>
+                                    </div>
                                 </div>
                             ))
                         }
                     </div>
 
 
-
-
-                    <div>
-                        <div className='p-3 overflow-auto'>
-                            {
-                                !loading && messages?.length > 0 && messages?.map((message) => (
-                                    <div className='text-white' key={message?._id} ref={lastMessageRef}>
-                                        <div className={`chat ${message.senderId === user._id ? 'chat-end' : 'chat-start'}`}>
-                                            <div className='chat-image avatar'></div>
-                                            <div className={`chat-bubble ${message.senderId === user._id ? 'bg-sky-600' : ''
-
-                                                }`}>
-                                                {message?.message}
-                                            </div>
-                                            <div className="chat-footer text-[10px] opacity-80 text-black">
-                                                {new Date(message?.createdAt).toLocaleDateString('en-IN', { timeZone: 'Asia/Dhaka' })}{' '}
-                                                {new Date(message?.createdAt).toLocaleTimeString('en-IN', {
-                                                    hour: 'numeric',
-                                                    minute: 'numeric',
-                                                    timeZone: 'Asia/Dhaka',
-                                                })}
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-
-                        </div>
-                        <form onSubmit={handelSubmit} className='rounded-full text-black border'>
-                            <div className='w-full rounded-full flex items-center bg-white'>
-                                <input value={sendData} onChange={handelMessages} required id='message' type='text'
-                                    className='w-full bg-transparent outline-none px-4 rounded-full' />
-                                <button type='submit' className='btn'>
-                                    {sending ? <div className='loading loading-spinner'></div> :
-                                        <span className='cursor-pointer rounded-full  w-10 h-auto p-1'>
-                                            send
-                                        </span>
-                                    }
-                                </button>
-                            </div>
+                    {/* Message Input */}
+                    <div className="p-4 bg-white">
+                        <form onSubmit={handelSubmit} className="flex items-center bg-gray-50 rounded-lg p-2">
+                            <input
+                                type="text"
+                                value={sendData} onChange={handelMessages}
+                                placeholder="Message..."
+                                className="flex-1 bg-transparent outline-none text-sm"
+                            />
+                            <button disabled={sending} type='submit' className="p-2 text-blue-600 hover:bg-gray-100 rounded-full">
+                                <Send size={20} />
+                            </button>
                         </form>
                     </div>
                 </>)
