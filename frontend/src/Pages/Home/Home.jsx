@@ -23,7 +23,7 @@ const Home = () => {
             <SIdeNav />
 
             {/* side bar */}
-            <div className={`w-80 bg-white border-r ${isSidebarVisible ? '' : 'hidden'}`}>
+            <div className={`w-80 bg-white border-r md:flex md:flex-col ${isSidebarVisible ? '' : 'hidden'}`}>
                 <SideBar handelUserSelect={handelUserSelect} />
             </div>
 

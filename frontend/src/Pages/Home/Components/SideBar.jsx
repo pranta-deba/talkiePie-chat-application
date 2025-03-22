@@ -6,7 +6,7 @@ import { removeDataFromLocalStorage } from '../../../utils/localStorage';
 import { useNavigate } from 'react-router-dom';
 import userConversation from '../../../Zustands/userConversation';
 import { useSocket } from '../../../Contexts/SocketContext';
-import { Search } from 'lucide-react';
+import { Search, User } from 'lucide-react';
 
 
 const SideBar = ({ handelUserSelect }) => {
@@ -146,10 +146,10 @@ const SideBar = ({ handelUserSelect }) => {
     }
 
     return (
-        <div>
+        <>
+            {/* search box */}
             <div className="p-4">
                 <form onSubmit={handleSubmit} className="relative">
-                    
                     <input
                         type="text"
                         ref={searchInputRef}
@@ -160,11 +160,57 @@ const SideBar = ({ handelUserSelect }) => {
                     <button type='submit' className='absolute right-3 top-2.5 cursor-pointer'><Search className=" text-gray-400" size={20} /></button>
                 </form>
             </div>
-            <form onSubmit={handleSubmit} className="join">
-                <input ref={searchInputRef} onChange={(e) => setSearchInput(e.target.value)} className="input join-item" placeholder="name" />
-                <button className="btn join-item rounded-r-full">search</button>
-            </form>
-            <div className='divider px-2'></div>
+
+            <div className='overflow-y-auto h-[calc(100vh-88px)]'>
+                {
+                    searchUsers?.length > 0 ?
+                        // search users
+                        <>
+
+                        </>
+                        :
+                        // chat list users
+                        <>
+                            {
+                                chatUsers.length > 0 ?
+                                    // chat list users shown
+                                    <>
+                                        {chatUsers.map((user, index) => (
+                                            <div key={index + 2} onClick={() => handelUserClick(user)}
+                                                className={`flex items-center p-4 hover:bg-[#155DFC] hover:text-white cursor-pointer group ${selectedUserId === user?._id ? 'bg-[#155DFC] text-white' : ''}`}>
+
+                                                <div className="relative">
+                                                    <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                                        {
+                                                            !user?.profileImage ?
+                                                                <User size={20} className="text-gray-500" /> :
+                                                                <img src={user?.profileImage} alt='user.img' />
+                                                        }
+                                                    </div>
+                                                    {isOnline[index] && (
+                                                        <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                                                    )}
+                                                </div>
+                                                <div className="ml-3 flex-1">
+                                                    <div className="flex justify-between items-center">
+                                                        <h3 className="text-sm font-medium">{user?.fullname}</h3>
+                                                        {newMessageUsers?.length > 0 && newMessageUsers.find(mgs => mgs.receiverId === authUser._id && mgs.senderId === user._id) && selectedConversation?._id !== user?._id && <span className={`text-xs group-hover:text-white text-gray-500 ${selectedUserId === user?._id ? "text-white" : ""}`}>
+                                                            {user?.time || "+1"}
+                                                        </span>}
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )
+                                        )}
+                                    </>
+                                    :
+                                    // no chat users available
+                                    <></>
+                            }
+                        </>
+                }
+            </div>
 
             {searchUsers?.length > 0 ?
                 (<>
@@ -215,46 +261,7 @@ const SideBar = ({ handelUserSelect }) => {
                 (<>
                     {
                         chatUsers.length > 0 ? (<>
-                            <div>
-                                {chatUsers.map((user, index) => (
-                                    <div key={index + 2}>
-                                        <div
-                                            onClick={() => handelUserClick(user)}
-                                            className={`flex gap-3 
-                                                items-center rounded 
-                                                p-2 py-1 cursor-pointer
-                                                ${selectedUserId === user?._id ? 'bg-sky-500' : ''
-                                                } `}>
 
-                                            <div
-                                                className={`avatar`}
-                                            >
-                                                <div className="w-12 rounded-full">
-                                                    <img src={user?.profileImage} alt='user.img' />
-                                                </div>
-                                                {/* Socket is Online */}
-                                                {isOnline[index] && <div className='absolute top-1 right-1 w-2 h-2 rounded-full bg-green-600 border-1 border-white'></div>}
-
-                                            </div>
-                                            <div className='flex flex-col flex-1'>
-                                                <p className='font-bold text-gray-950'>{user.username}</p>
-                                            </div>
-                                            {/* <div>
-                                                {newMessageUsers?.receiverId === authUser._id && newMessageUsers.senderId === user._id && selectedConversation?._id !== user?._id ?
-                                                    <div className="rounded-full bg-green-700 text-sm text-white px-[4px]">+1</div> : <></>
-                                                }
-                                            </div> */}
-                                            {
-                                                newMessageUsers?.length > 0 && newMessageUsers.find(mgs => mgs.receiverId === authUser._id && mgs.senderId === user._id) && selectedConversation?._id !== user?._id ?
-                                                    <div className="rounded-full bg-green-700 text-sm text-white px-[4px]">+1</div>
-                                                    : <></>
-                                            }
-                                        </div>
-                                        <div className='divider divide-solid px-3 h-[1px]'></div>
-                                    </div>
-                                )
-                                )}
-                            </div>
                         </>) : (<>
                             <div>
                                 <h1>you are alone!</h1>
@@ -269,7 +276,7 @@ const SideBar = ({ handelUserSelect }) => {
                     </div>
                 </>)
             }
-        </div>
+        </>
     );
 };
 
