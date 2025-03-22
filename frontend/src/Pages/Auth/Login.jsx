@@ -35,7 +35,7 @@ const Login = () => {
                 setDataIntoLocalStorage(data.data);
                 setUser(data.data);
                 setLoading(false);
-                navigate('/');
+                navigate('/', { replace: true });
             } else {
                 toast.error(data.message || "something went wrong!");
                 setLoading(false);

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import  toast  from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { setDataIntoLocalStorage } from '../../utils/localStorage';
 import { MessageCircle, Mail, Lock, ArrowRight, User, UserCheck } from 'lucide-react';
 
@@ -16,30 +16,38 @@ const Register = () => {
         password: '',
         confirmPassword: '',
     });
+    console.log(formData)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+
         // validation
-        if (!formData?.fullName || !formData?.username || !formData?.email || !formData?.password || !formData?.confirmPassword || !formData?.gender) {
+        if (!formData.fullName || !formData.username || !formData.email || !formData.password || !formData.confirmPassword || !formData.gender) {
             toast.error("Please fill all the fields");
             setLoading(false);
             return;
         }
-        if (formData?.password !== formData?.confirmPassword) {
+        if (formData.password !== formData.confirmPassword) {
             toast.error("Passwords do not match");
             setLoading(false);
             return;
         }
 
         try {
-            const { data } = await axios.post('/api/auth/register', formData);
+            const { data } = await axios.post('/api/auth/register', {
+                fullname: formData.fullName,
+                username: formData.username,
+                email: formData.email,
+                gender: formData.gender,
+                password: formData.password,
+            });
             if (data.success) {
                 console.log(data)
                 toast.success(data?.message + ", please login" || "something went wrong!");
                 setDataIntoLocalStorage(data.data);
                 setLoading(false);
-                navigate('/login');
+                navigate('/login', { replace: true });
             } else {
                 toast.error(data?.message || "something went wrong!");
                 setLoading(false);
