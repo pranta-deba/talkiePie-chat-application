@@ -11,7 +11,7 @@ export const useAuth = () => {
 
 export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useState(getDataFromLocalStorage() || null);
-    console.log(user)
+    
     return <AuthContext.Provider value={{ user, setUser }}>
         {children}
     </AuthContext.Provider>

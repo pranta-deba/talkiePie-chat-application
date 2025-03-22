@@ -1,12 +1,10 @@
 import { Route, Routes } from "react-router-dom";
-import './App.css'
 import Home from "./Pages/Home/Home";
 import Login from "./Pages/Auth/Login";
 import Register from "./Pages/Auth/Register";
 import { ToastContainer, Bounce } from 'react-toastify';
 import AuthVerifiedRoute from "./Routes/AuthVerifiedRoute";
 import { Toaster } from 'react-hot-toast';
-import Test from "./Pages/Test/Test";
 
 function App() {
 
@@ -18,7 +16,6 @@ function App() {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/test" element={<Test />} />
       </Routes>
       <ToastContainer
         position="top-right"
