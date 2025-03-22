@@ -25,10 +25,10 @@ const SIdeNav = ({ handelLogOut }) => {
     return (<>
         <div className="w-16 bg-[#0f1729] flex flex-col items-center py-6 space-y-8">
             <div className="flex flex-col items-center space-y-8">
-                <button onClick={() => handleNavBgColor('chats')} className={`cursor-pointer p-2 text-white ${navActive === 'chats' ? "bg-blue-600" : 'hover:bg-blue-600'} rounded-lg`}>
+                <button onClick={() => handleNavBgColor('chats')} className={`cursor-pointer p-2 text-white ${navActive === 'chats' ? "bg-blue-600" : 'hover:bg-blue-600'} rounded-lg`} title='Chats'>
                     <MessageSquare size={20} />
                 </button>
-                <button onClick={() => handleNavBgColor('profile')} className={`cursor-pointer p-2 text-white ${navActive === 'profile' ? "bg-blue-600" : 'hover:bg-blue-600'} rounded-lg`}>
+                <button onClick={() => handleNavBgColor('profile')} className={`cursor-pointer p-2 text-white ${navActive === 'profile' ? "bg-blue-600" : 'hover:bg-blue-600'} rounded-lg`} title='Profile'>
                     <Settings size={20} />
                 </button>
             </div>
