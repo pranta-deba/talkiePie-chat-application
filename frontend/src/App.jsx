@@ -6,6 +6,7 @@ import Register from "./Pages/Auth/Register";
 import { ToastContainer, Bounce } from 'react-toastify';
 import AuthVerifiedRoute from "./Routes/AuthVerifiedRoute";
 import  { Toaster } from 'react-hot-toast';
+import Test from "./Pages/Test/Test";
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/test" element={<Test />} />
       </Routes>
       <ToastContainer
         position="top-right"
@@ -32,7 +34,7 @@ function App() {
         transition={Bounce}
       />
       <Toaster
-        position="top-left"
+        position="top-right"
         reverseOrder={false}
       />
     </>

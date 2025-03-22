@@ -6,6 +6,7 @@ import { removeDataFromLocalStorage } from '../../../utils/localStorage';
 import { useNavigate } from 'react-router-dom';
 import userConversation from '../../../Zustands/userConversation';
 import { useSocket } from '../../../Contexts/SocketContext';
+import { Search } from 'lucide-react';
 
 
 const SideBar = ({ handelUserSelect }) => {
@@ -145,7 +146,20 @@ const SideBar = ({ handelUserSelect }) => {
     }
 
     return (
-        <div className='min-h-screen w-full border-2 p-2'>
+        <div>
+            <div className="p-4">
+                <form onSubmit={handleSubmit} className="relative">
+                    
+                    <input
+                        type="text"
+                        ref={searchInputRef}
+                        placeholder="Search"
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        className="w-full px-4 py-2 bg-gray-100 rounded-lg focus:outline-none"
+                    />
+                    <button type='submit' className='absolute right-3 top-2.5 cursor-pointer'><Search className=" text-gray-400" size={20} /></button>
+                </form>
+            </div>
             <form onSubmit={handleSubmit} className="join">
                 <input ref={searchInputRef} onChange={(e) => setSearchInput(e.target.value)} className="input join-item" placeholder="name" />
                 <button className="btn join-item rounded-r-full">search</button>

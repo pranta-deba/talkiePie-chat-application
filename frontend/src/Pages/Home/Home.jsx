@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import SideBar from './Components/SideBar';
 import ChatContainer from './Components/ChatContainer';
+import SIdeNav from './Components/SIdeNav';
 
 const Home = () => {
     const [selectedUser, setSelectedUser] = useState(null);
     const [isSidebarVisible, setIsSidebarVisible] = useState(true);
-    
+
 
     const handelUserSelect = (user) => {
         setSelectedUser(user);
@@ -17,11 +18,15 @@ const Home = () => {
     }
 
     return (
-        <div className='min-h-screen w-full flex justify-center items-center gap-2 p-2'>
+        <div className='flex h-screen bg-gray-50'>
+            {/* side nav */}
+            <SIdeNav />
+
             {/* side bar */}
-            <div className={`flex-auto py-2 md:flex ${isSidebarVisible ? '' : 'hidden'}`}>
+            <div className={`w-80 bg-white border-r ${isSidebarVisible ? '' : 'hidden'}`}>
                 <SideBar handelUserSelect={handelUserSelect} />
             </div>
+
             {/* message container */}
             <div className={`flex-auto ${selectedUser ? '' : 'hidden md:flex'} bg-gray-200}`}>
                 <ChatContainer handelShowSidebar={handelShowSidebar} />
