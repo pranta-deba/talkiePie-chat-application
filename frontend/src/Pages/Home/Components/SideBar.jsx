@@ -9,7 +9,7 @@ import { useSocket } from '../../../Contexts/SocketContext';
 import { ArrowLeft, Backpack, ReceiptEuro, Search, User } from 'lucide-react';
 
 
-const SideBar = ({ handelUserSelect, handelLogOut }) => {
+const SideBar = ({ handelUserSelect }) => {
     const { user: authUser } = useAuth()
     const searchInputRef = useRef()
     const [searchInput, setSearchInput] = useState('');

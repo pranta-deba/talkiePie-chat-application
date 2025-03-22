@@ -53,11 +53,11 @@ const Home = () => {
 
             {/* side bar */}
             <div className={`w-80 bg-white border-r md:flex md:flex-col ${isSidebarVisible ? '' : 'hidden'}`}>
-                <SideBar handelUserSelect={handelUserSelect} handelLogOut={handelLogOut} />
+                <SideBar handelUserSelect={handelUserSelect} />
             </div>
 
             {/* message container */}
-            <div className={`flex-auto ${selectedUser ? '' : 'hidden md:flex'} bg-gray-200}`}>
+            <div className={`flex-1 bg-gray-50 ${selectedUser ? '' : 'hidden md:flex flex-col'}`}>
                 <ChatContainer handelShowSidebar={handelShowSidebar} />
             </div>
         </div>

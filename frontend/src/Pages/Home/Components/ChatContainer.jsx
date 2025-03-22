@@ -6,7 +6,7 @@ import { useSocket } from '../../../Contexts/SocketContext';
 import notificationSound from "../../../assets/sound/notification.mp3"
 
 const ChatContainer = ({ handelShowSidebar }) => {
-    const { messages, selectedConversation, setMessage, setSelectedConversation } = userConversation();
+    const { messages, selectedConversation, setMessage } = userConversation();
     const { socket } = useSocket();
     const { user } = useAuth()
     const [loading, setLoading] = useState(false);
@@ -35,11 +35,9 @@ const ChatContainer = ({ handelShowSidebar }) => {
             setLoading(true);
             try {
                 const { data } = await axios.get(`/api/message/${selectedConversation._id}`);
-                console.log(data)
                 setMessage(data.data);
                 setLoading(false);
             } catch (error) {
-                console.log(error);
                 setLoading(false);
             }
         }
@@ -58,12 +56,10 @@ const ChatContainer = ({ handelShowSidebar }) => {
         const message = sendData;
         try {
             const { data } = await axios.post(`/api/message/send/${selectedConversation._id}`, { message });
-            console.log(data)
             setMessage([...messages, data?.data]);
             setSendData('');
             setSending(false);
         } catch (error) {
-            console.log(error);
             setSending(false);
         }
     }
