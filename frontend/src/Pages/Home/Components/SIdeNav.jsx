@@ -1,13 +1,11 @@
 import { LogOut, MessageSquare, Settings, User } from 'lucide-react';
 import React, { useState } from 'react';
 import Modals from './Modals';
-import logo from "../../../assets/logo.png";
 import { useAuth } from '../../../Contexts/AuthContext';
 
 const SIdeNav = ({ handelLogOut }) => {
     const [profileModal, setProfileModal] = useState(false);
     const { user } = useAuth()
-
 
 
     return (<>
@@ -16,7 +14,7 @@ const SIdeNav = ({ handelLogOut }) => {
                 <button className={`cursor-pointer p-2 text-white bg-blue-600 rounded-lg`} title='Chats'>
                     <MessageSquare size={20} />
                 </button>
-                <div onClick={() => setProfileModal(true)} className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center cursor-pointer">
+                <div title='Profile' onClick={() => setProfileModal(true)} className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center cursor-pointer">
                     {
                         !user?.profileImage ?
                             <User size={20} className="text-gray-500" /> :

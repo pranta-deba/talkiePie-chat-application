@@ -19,7 +19,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/test" element={<Test />} />
-        <Route path="/setting" element={"setting"} />
       </Routes>
       <ToastContainer
         position="top-right"
