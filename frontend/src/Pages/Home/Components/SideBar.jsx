@@ -31,29 +31,30 @@ const SideBar = ({ handelUserSelect }) => {
     // incoming new messages
     useEffect(() => {
         socket?.on("newMessage", (newMessage) => {
-            const existsNewMessage = newMessageUsers?.find(mgs => mgs.senderId === newMessage.senderId);
-            if (!existsNewMessage) {
-                setNewMessageUsers([newMessage, ...newMessageUsers]);
-            }
-            // setNewMessageUsers([newMessage, ...newMessageUsers.filter(oldMessages => oldMessages.senderId !== newMessage.senderId)]);
+            // Check if the sender already exists in newMessageUsers
+            setNewMessageUsers(prevMessages => {
+                const existsNewMessage = prevMessages.find(mgs => mgs.senderId === newMessage.senderId);
+                if (!existsNewMessage) {
+                    return [newMessage, ...prevMessages];
+                }
+                return prevMessages;
+            });
 
+            // Check if sender exists in chatUsers list
+            const senderExists = chatUsers.some(user => user._id === newMessage.senderId);
 
-            const senderExists = chatUsers.find(user => user._id === newMessage.senderId);
             if (!senderExists) {
-                axios.get(`/api/user/${newMessage.senderId}`).then(({ data }) => {
-                    if (data.success) {
-                        const latestUsers = chatUsers.filter(user => user._id !== newMessage.senderId);
-                        setChatUsers([data.data, ...latestUsers]);
-                    }
-                }).catch(() => toast.error("Something went wrong!"));
-            } else {
-                const latestUsers = chatUsers.filter(user => user._id !== newMessage.senderId);
-                setChatUsers([senderExists, ...latestUsers]);
+                axios.get(`/api/user/${newMessage.senderId}`)
+                    .then(({ data }) => {
+                        if (data.success) {
+                            setChatUsers(prevUsers => [data.data, ...prevUsers]);
+                        }
+                    })
+                    .catch(() => toast.error("Something went wrong!"));
             }
         })
         return () => socket?.off("newMessage");
     }, [socket, messages]);
-
 
     // current chats list get
     useEffect(() => {

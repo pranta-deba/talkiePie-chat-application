@@ -18,7 +18,7 @@ const SIdeNav = ({ handelLogOut, loading }) => {
                     {
                         !user?.profileImage ?
                             <User size={20} className="text-gray-500" /> :
-                            <img src={user?.profileImage} alt='user.img' />
+                            <img src={user?.profileImage} alt='user' />
                     }
                 </div>
             </div>

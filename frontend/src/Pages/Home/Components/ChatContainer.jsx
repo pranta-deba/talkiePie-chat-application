@@ -36,7 +36,7 @@ const ChatContainer = ({ handelShowSidebar }) => {
         });
 
         return () => socket?.off("newMessage");
-    }, [socket, setMessage, messages]);
+    }, [socket, messages]);
 
     useEffect(() => {
         setTimeout(() => {
