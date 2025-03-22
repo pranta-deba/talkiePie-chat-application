@@ -1,16 +1,28 @@
 import { LogOut, MessageSquare, Settings } from 'lucide-react';
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import Modals from './Modals';
 
 const SIdeNav = ({ handelLogOut }) => {
     const [navActive, setNavActive] = useState('chats');
     const [profileModal, setProfileModal] = useState(false);
 
     const handleNavBgColor = (nav) => {
-        setNavActive(nav)
+        if (nav === 'profile') {
+            setNavActive(nav)
+            setProfileModal(true)
+
+        }
+        if (nav === 'chats') {
+            setNavActive(nav)
+        }
+    }
+    const handleClosedModel = (trigger) => {
+        setProfileModal(trigger);
+        setNavActive('chats');
     }
 
-    return (
+    return (<>
         <div className="w-16 bg-[#0f1729] flex flex-col items-center py-6 space-y-8">
             <div className="flex flex-col items-center space-y-8">
                 <button onClick={() => handleNavBgColor('chats')} className={`cursor-pointer p-2 text-white ${navActive === 'chats' ? "bg-blue-600" : 'hover:bg-blue-600'} rounded-lg`}>
@@ -26,6 +38,8 @@ const SIdeNav = ({ handelLogOut }) => {
                 </button>
             </div>
         </div>
+        {profileModal && <Modals handleClosedModel={handleClosedModel} />}
+    </>
     );
 };
 
