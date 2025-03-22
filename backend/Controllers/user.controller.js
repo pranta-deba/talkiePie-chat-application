@@ -107,7 +107,7 @@ export const getUserById = async (req, res) => {
 };
 
 export const updatedUser = async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user._id;
   const { fullname, username, gender } = req.body;
 
   try {
