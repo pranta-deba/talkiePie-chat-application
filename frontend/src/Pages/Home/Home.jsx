@@ -58,7 +58,7 @@ const Home = () => {
             <SIdeNav handelLogOut={handelLogOut} />
 
             {/* side bar */}
-            <div className={`w-80 bg-white border-r md:flex md:flex-col ${isSidebarVisible ? '' : 'hidden'}`}>
+            <div className={`w-full md:w-80 bg-white border-r md:flex md:flex-col ${isSidebarVisible ? '' : 'hidden'}`}>
                 <SideBar handelUserSelect={handelUserSelect} />
             </div>
 

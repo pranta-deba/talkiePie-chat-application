@@ -4,7 +4,7 @@ import userConversation from '../../../Zustands/userConversation';
 import axios from 'axios';
 import { useSocket } from '../../../Contexts/SocketContext';
 import notificationSound from "../../../assets/sound/notification.mp3"
-import { ArrowLeft, Send, User } from 'lucide-react';
+import { ArrowLeft, MessageSquare, Send, User } from 'lucide-react';
 
 const ChatContainer = ({ handelShowSidebar }) => {
     const { messages, selectedConversation, setMessage } = userConversation();
@@ -82,9 +82,17 @@ const ChatContainer = ({ handelShowSidebar }) => {
         <>
             {
                 selectedConversation === null ? (<>
-                    <div>
-                        <h1>Select a conversation to start chatting</h1>
-                        <p>hey : {user?.username}</p>
+                    <div className="flex flex-col items-center justify-center h-full text-center p-6 bg-gray-50 dark:bg-gray-900 rounded-lg shadow-md">
+                        <div className="p-4 bg-blue-100 dark:bg-blue-800 rounded-full shadow-md">
+                            <MessageSquare className="w-12 h-12 text-blue-500 dark:text-blue-300" />
+                        </div>
+                        <h1 className="mt-4 text-2xl font-semibold text-gray-800 dark:text-gray-200">
+                            No Conversations Yet
+                        </h1>
+                        <p className="mt-2 text-gray-600 dark:text-gray-400">
+                            Hey, <span className="font-medium text-blue-600 dark:text-blue-400">{user?.username}</span>!<br />
+                            Select a conversation to start chatting.
+                        </p>
                     </div>
                 </>) : (<>
                     {/* Chat Header */}
