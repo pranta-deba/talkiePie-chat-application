@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { useAuth } from '../../../Contexts/AuthContext';
 import userConversation from '../../../Zustands/userConversation';
 import { useSocket } from '../../../Contexts/SocketContext';
-import { ArrowLeft, Backpack, ReceiptEuro, Search, User } from 'lucide-react';
+import { ArrowLeft, Search, User } from 'lucide-react';
 
 
 const SideBar = ({ handelUserSelect }) => {
@@ -45,7 +45,7 @@ const SideBar = ({ handelUserSelect }) => {
                         const latestUsers = chatUsers.filter(user => user._id !== newMessage.senderId);
                         setChatUsers([data.data, ...latestUsers]);
                     }
-                }).catch(err => toast.error("Something went wrong!"));
+                }).catch(() => toast.error("Something went wrong!"));
             } else {
                 const latestUsers = chatUsers.filter(user => user._id !== newMessage.senderId);
                 setChatUsers([senderExists, ...latestUsers]);
@@ -143,7 +143,7 @@ const SideBar = ({ handelUserSelect }) => {
                             {
                                 searchUsers.map((user, index) => (
                                     <div key={index + 1} onClick={() => handelUserClick(user)}
-                                        className={`flex items-center p-4 hover:bg-[#155DFC] hover:text-white cursor-pointer group ${selectedUserId === user?._id ? 'bg-[#155DFC] text-white' : ''}`}>
+                                        className={`flex items-center p-4 hover:bg-gray-50 cursor-pointer ${selectedUserId === user?._id ? 'bg-gray-50' : ''}`}>
                                         <div className="relative">
                                             <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
                                                 {
@@ -159,7 +159,7 @@ const SideBar = ({ handelUserSelect }) => {
                                         <div className="ml-3 flex-1">
                                             <div className="flex justify-between items-center">
                                                 <h3 className="text-sm font-medium">{user?.fullname}</h3>
-                                                {newMessageUsers?.length > 0 && newMessageUsers.find(mgs => mgs.receiverId === authUser._id && mgs.senderId === user._id) && selectedConversation?._id !== user?._id && <span className={`text-xs group-hover:text-white text-gray-500 ${selectedUserId === user?._id ? "text-white" : ""}`}>
+                                                {newMessageUsers?.length > 0 && newMessageUsers.find(mgs => mgs.receiverId === authUser._id && mgs.senderId === user._id) && selectedConversation?._id !== user?._id && <span className={`text-xs text-gray-500 ${selectedUserId === user?._id ? "text-white" : ""}`}>
                                                     {user?.time || "+1"}
                                                 </span>}
                                             </div>

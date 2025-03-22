@@ -8,12 +8,25 @@ import { ArrowLeft, Send, User } from 'lucide-react';
 
 const ChatContainer = ({ handelShowSidebar }) => {
     const { messages, selectedConversation, setMessage } = userConversation();
-    const { socket } = useSocket();
+    const { socket, onlineUser } = useSocket();
     const { user } = useAuth()
     const [loading, setLoading] = useState(false);
     const lastMessageRef = useRef();
     const [sending, setSending] = useState(false);
     const [sendData, setSendData] = useState("");
+    const [selectUserIsActive, setSelectUserIsActive] = useState(false);
+
+    useEffect(() => {
+        if (onlineUser && selectedConversation) {
+            const isUserActive = onlineUser?.find(user => user === selectedConversation?._id)
+            if (isUserActive) {
+                setSelectUserIsActive(true)
+            } else {
+                setSelectUserIsActive(false)
+            }
+        }
+    }, [onlineUser, selectedConversation])
+
 
     useEffect(() => {
         socket?.on('newMessage', (message) => {
@@ -50,7 +63,6 @@ const ChatContainer = ({ handelShowSidebar }) => {
         setSendData(e.target.value);
     }
 
-
     const handelSubmit = async (e) => {
         e.preventDefault();
         setSending(true);
@@ -83,8 +95,9 @@ const ChatContainer = ({ handelShowSidebar }) => {
                                     <img src={selectedConversation?.profileImage} alt='user.img' />}
                             </div>
                             <div className="ml-3">
-                                <h2 className="text-sm font-medium">User Name</h2>
-                                <p className="text-xs text-green-500">Online</p>
+                                <h2 className="text-sm font-medium">{selectedConversation?.fullname}</h2>
+                                {selectUserIsActive ? <p className="text-xs text-green-500">Online</p> :
+                                    <p className="text-xs text-gray-400">Offline</p>}
                             </div>
                         </div>
                         <button onClick={() => handelShowSidebar()} className="md:hidden p-2 hover:bg-gray-100 rounded-full cursor-pointer" title='back'>
