@@ -72,11 +72,11 @@ const ChatContainer = ({ handelShowSidebar }) => {
             setMessage([...messages, data?.data]);
             setSendData('');
             setSending(false);
+
         } catch (error) {
             setSending(false);
         }
     }
-
 
     return (
         <>

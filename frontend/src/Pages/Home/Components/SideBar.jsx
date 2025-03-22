@@ -10,10 +10,10 @@ import { ArrowLeft, Search, User } from 'lucide-react';
 const SideBar = ({ handelUserSelect }) => {
     const { user: authUser } = useAuth()
     const searchInputRef = useRef()
+    const [chatUsers, setChatUsers] = useState([]);
     const [searchInput, setSearchInput] = useState('');
     const [loading, setLoading] = useState(false);
     const [searchUsers, setSearchUsers] = useState([]);
-    const [chatUsers, setChatUsers] = useState([]);
     const [selectedUserId, setSetSelectedUserId] = useState(null);
     const { messages, selectedConversation, setSelectedConversation } = userConversation();
     const { onlineUser, socket } = useSocket();
@@ -21,8 +21,8 @@ const SideBar = ({ handelUserSelect }) => {
 
 
     // online chat users
-    const nowOnline = chatUsers.map((user) => (user._id));
-    const isOnline = nowOnline.map(userId => onlineUser.includes(userId));
+    const nowOnline = chatUsers?.map((user) => (user._id));
+    const isOnline = nowOnline?.map(userId => onlineUser.includes(userId));
 
     // online search users
     const nowOnlineSearchUser = searchUsers.map((user) => (user._id));
