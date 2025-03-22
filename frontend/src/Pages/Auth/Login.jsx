@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { toast } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { setDataIntoLocalStorage } from '../../utils/localStorage';
 import { useAuth } from '../../Contexts/AuthContext';
-import { MessageCircle, Mail, Lock, ArrowRight, User, UserCheck } from 'lucide-react';
+import { MessageCircle, Mail, Lock, ArrowRight } from 'lucide-react';
 
 
 const Login = () => {

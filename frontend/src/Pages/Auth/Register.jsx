@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import  toast  from 'react-hot-toast';
 import { setDataIntoLocalStorage } from '../../utils/localStorage';
 import { MessageCircle, Mail, Lock, ArrowRight, User, UserCheck } from 'lucide-react';
 
@@ -45,7 +45,6 @@ const Register = () => {
                 setLoading(false);
             }
         } catch (error) {
-            console.log(error);
             setLoading(false);
             toast.error(error?.response?.data?.message || "something went wrong!");
         }
