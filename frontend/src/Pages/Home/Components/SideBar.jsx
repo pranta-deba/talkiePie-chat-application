@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../../Contexts/AuthContext';
-import { removeDataFromLocalStorage } from '../../../utils/localStorage';
-import { useNavigate } from 'react-router-dom';
 import userConversation from '../../../Zustands/userConversation';
 import { useSocket } from '../../../Contexts/SocketContext';
 import { ArrowLeft, Backpack, ReceiptEuro, Search, User } from 'lucide-react';
@@ -17,7 +15,6 @@ const SideBar = ({ handelUserSelect }) => {
     const [searchUsers, setSearchUsers] = useState([]);
     const [chatUsers, setChatUsers] = useState([]);
     const [selectedUserId, setSetSelectedUserId] = useState(null);
-    const navigate = useNavigate();
     const { messages, selectedConversation, setSelectedConversation } = userConversation();
     const { onlineUser, socket } = useSocket();
     const [newMessageUsers, setNewMessageUsers] = useState([]);
@@ -34,7 +31,6 @@ const SideBar = ({ handelUserSelect }) => {
     // incoming new messages
     useEffect(() => {
         socket?.on("newMessage", (newMessage) => {
-            console.log(newMessageUsers)
             const existsNewMessage = newMessageUsers?.find(mgs => mgs.senderId === newMessage.senderId);
             if (!existsNewMessage) {
                 setNewMessageUsers([newMessage, ...newMessageUsers]);

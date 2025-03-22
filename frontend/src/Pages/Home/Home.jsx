@@ -4,11 +4,16 @@ import ChatContainer from './Components/ChatContainer';
 import SIdeNav from './Components/SIdeNav';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../Contexts/AuthContext';
+import { removeDataFromLocalStorage } from '../../utils/localStorage';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Home = () => {
     const [selectedUser, setSelectedUser] = useState(null);
     const [isSidebarVisible, setIsSidebarVisible] = useState(true);
-    const { user: authUser, setUser } = useAuth()
+    const { user, setUser } = useAuth();
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate()
 
 
     const handelUserSelect = (user) => {
@@ -23,7 +28,7 @@ const Home = () => {
     // logout
     const handelLogOut = async () => {
         const confirmLogout = window.prompt("type 'UserName' To LOGOUT");
-        if (confirmLogout === authUser.username) {
+        if (confirmLogout === user.username) {
             setLoading(true);
             try {
                 const { data } = await axios.post('/api/auth/logout');
@@ -34,7 +39,7 @@ const Home = () => {
                     setLoading(false);
                     navigate("/login");
                 } else {
-                    toast.error(data.message || "something went wrong!");
+                    toast.error(data.message || "something went wrong!aaaaa");
                     setLoading(false);
                 }
             } catch (error) {

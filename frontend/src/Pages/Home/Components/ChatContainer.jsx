@@ -93,25 +93,37 @@ const ChatContainer = ({ handelShowSidebar }) => {
                     </div>
 
                     {/* Messages */}
+                    <div className="flex-1 overflow-y-auto p-4 space-y-4">
 
-                    
+                        {/* messages load */}
+                        {loading && (
+                            <div className="flex w-full h-full flex-col items-center justify-center 
+                gap-4 bg-transparent">
+                                <div className="loading loading-spinner"></div>
+                            </div>
+                        )}
+
+                        {/* empty messages */}
+                        {!loading && messages?.length === 0 && (
+                            <p className='text-center  items-center'>Send a message to
+                                start Conversation</p>
+                        )}
+
+                        {/* messages */}
+                        {
+                            !loading && messages?.length > 0 && messages?.map((message) => (
+                                <div key={message?._id}>
+                                    
+                                </div>
+                            ))
+                        }
+                    </div>
+
+
 
 
                     <div>
                         <div className='p-3 overflow-auto'>
-
-                            {loading && (
-                                <div className="flex w-full h-full flex-col items-center justify-center 
-                gap-4 bg-transparent">
-                                    <div className="loading loading-spinner"></div>
-                                </div>
-                            )}
-
-                            {!loading && messages?.length === 0 && (
-                                <p className='text-center  items-center'>Send a message to
-                                    start Conversation</p>
-                            )}
-
                             {
                                 !loading && messages?.length > 0 && messages?.map((message) => (
                                     <div className='text-white' key={message?._id} ref={lastMessageRef}>
