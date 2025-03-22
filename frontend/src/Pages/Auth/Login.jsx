@@ -4,31 +4,31 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { setDataIntoLocalStorage } from '../../utils/localStorage';
 import { useAuth } from '../../Contexts/AuthContext';
+import { MessageCircle, Mail, Lock, ArrowRight, User, UserCheck } from 'lucide-react';
 
 const Login = () => {
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+    });
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { setUser } = useAuth()
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const form = e?.target;
-        const email = form?.email?.value;
-        const password = form?.password?.value;
 
         // validation
-        if (!email || !password) {
+        if (!formData.email || !formData.password) {
             toast.warn('Please fill all fields');
             setLoading(false);
             return;
         }
 
         try {
-            const { data } = await axios.post('/api/auth/login', {
-                email,
-                password,
-            });
+            const { data } = await axios.post('/api/auth/login', formData);
             if (data.success) {
                 toast.success(data.message);
                 setDataIntoLocalStorage(data.data);
@@ -47,21 +47,91 @@ const Login = () => {
     }
 
     return (
-        <div className='min-h-screen flex justify-center items-center'>
-            <div className="bg-fuchsia-200 flex items-center justify-center text-center dark:bg-gray-50 dark:text-gray-800">
-                <form onSubmit={handleSubmit} className="flex flex-col w-full max-w-lg p-12 rounded shadow-lg dark:text-gray-800">
-                    <label htmlFor="email" className="self-start text-xs font-semibold">Email</label>
-                    <input autoComplete='email' id="email" type="email" name='email' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
-                    <label htmlFor="password" className="self-start mt-3 text-xs font-semibold">Password</label>
-                    <input autoComplete="current-password" id="password" type="password" name='password' className="flex items-center h-12 px-4 mt-2 rounded dark:text-gray-50 focus:outline-none focus:ring-2 focus:dark:border-violet-600 focus:dark:ring-violet-600 border-2" />
-                    <button disabled={loading} type="submit" className="btn flex items-center justify-center h-12 px-6 mt-8 text-sm font-semibold rounded dark:bg-violet-600 dark:text-gray-50">{loading ? "loading.." : "Login"}</button>
-                    <div className="flex justify-center mt-6 space-x-2 text-xs">
-                        <span className="dark:text-gray-600">no account?</span>
-                        <Link to={"/register"} className="dark:text-gray-600 underline">Sign Up</Link>
+        <div className="min-h-screen w-full flex flex-col md:flex-row">
+            <div className="w-full md:w-1/2 flex items-center justify-center p-8 bg-white">
+                <div className="w-full max-w-md space-y-8">
+                    <div className="text-center">
+                        <div className="flex justify-center">
+                            <MessageCircle className="h-12 w-12 text-primary" />
+                        </div>
+                        <h2 className="mt-6 text-3xl font-bold tracking-tight text-gray-900">
+                            Welcome back!
+                        </h2>
+                        <p className="mt-2 text-sm text-gray-600">
+                            Please sign in to your account
+                        </p>
                     </div>
-                </form>
+
+                    <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                        <div className="space-y-4">
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <Mail className="h-5 w-5 text-gray-400" />
+                                </div>
+                                <input
+                                    type="email"
+                                    required
+                                    className="input input-bordered w-full pl-10"
+                                    placeholder="Email address"
+                                    value={formData.email}
+                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                />
+                            </div>
+
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <Lock className="h-5 w-5 text-gray-400" />
+                                </div>
+                                <input
+                                    type="password"
+                                    required
+                                    className="input input-bordered w-full pl-10"
+                                    placeholder="Password"
+                                    value={formData.password}
+                                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                                />
+                            </div>
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="btn btn-primary w-full group"
+                        >
+                            Sign in
+                            <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                        </button>
+
+                        <div className="text-center text-sm space-y-2">
+                            <div>
+                                <Link to="/forgot-password" className="font-medium text-primary hover:text-primary-focus">
+                                    Forgot your password?
+                                </Link>
+                            </div>
+                            <div>
+                                <span className="text-gray-600">Don't have an account?</span>
+                                {' '}
+                                <Link to="/register" className="font-medium text-primary hover:text-primary-focus">
+                                    Sign up now
+                                </Link>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div className="hidden md:block w-1/2 bg-[#3268AA] bg-cover bg-center">
+                <div className="h-full w-full bg-primary/10 backdrop-blur-sm flex items-center justify-center p-12">
+                    <div className="text-white text-center">
+                        <h1 className="text-5xl font-bold mb-6">MESSENGER</h1>
+                        <p className="text-xl max-w-md">
+                            Connect with friends and family instantly through our secure messaging platform.
+                            Stay in touch with those who matter most.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
+
     );
 };
 
