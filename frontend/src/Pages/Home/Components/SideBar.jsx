@@ -6,11 +6,11 @@ import { removeDataFromLocalStorage } from '../../../utils/localStorage';
 import { useNavigate } from 'react-router-dom';
 import userConversation from '../../../Zustands/userConversation';
 import { useSocket } from '../../../Contexts/SocketContext';
-import { Search, User } from 'lucide-react';
+import { ArrowLeft, Backpack, ReceiptEuro, Search, User } from 'lucide-react';
 
 
-const SideBar = ({ handelUserSelect }) => {
-    const { user: authUser, setUser } = useAuth()
+const SideBar = ({ handelUserSelect, handelLogOut }) => {
+    const { user: authUser } = useAuth()
     const searchInputRef = useRef()
     const [searchInput, setSearchInput] = useState('');
     const [loading, setLoading] = useState(false);
@@ -119,37 +119,15 @@ const SideBar = ({ handelUserSelect }) => {
         searchInputRef.current.value = '';
     }
 
-    // logout
-    const handelLogOut = async () => {
-        const confirmLogout = window.prompt("type 'UserName' To LOGOUT");
-        if (confirmLogout === authUser.username) {
-            setLoading(true);
-            try {
-                const { data } = await axios.post('/api/auth/logout');
-                if (data.success) {
-                    toast.success(data.message);
-                    removeDataFromLocalStorage();
-                    setUser(null);
-                    setLoading(false);
-                    navigate("/login");
-                } else {
-                    toast.error(data.message || "something went wrong!");
-                    setLoading(false);
-                }
-            } catch (error) {
-                setLoading(false);
-                toast.error(error?.response?.data?.message || "something went wrong!");
-            }
-        } else {
-            toast.error("invalid username!")
-        }
-    }
 
     return (
         <>
             {/* search box */}
-            <div className="p-4">
-                <form onSubmit={handleSubmit} className="relative">
+            <div className="p-4 flex justify-center items-center">
+                {searchUsers?.length > 0 && <div>
+                    <button onClick={handleSearchBack} className='mr-2 cursor-pointer'><ArrowLeft /></button>
+                </div>}
+                <form onSubmit={handleSubmit} className="relative flex-1">
                     <input
                         type="text"
                         ref={searchInputRef}
@@ -166,7 +144,33 @@ const SideBar = ({ handelUserSelect }) => {
                     searchUsers?.length > 0 ?
                         // search users
                         <>
-
+                            {
+                                searchUsers.map((user, index) => (
+                                    <div key={index + 1} onClick={() => handelUserClick(user)}
+                                        className={`flex items-center p-4 hover:bg-[#155DFC] hover:text-white cursor-pointer group ${selectedUserId === user?._id ? 'bg-[#155DFC] text-white' : ''}`}>
+                                        <div className="relative">
+                                            <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                                {
+                                                    !user?.profileImage ?
+                                                        <User size={20} className="text-gray-500" /> :
+                                                        <img src={user?.profileImage} alt='user.img' />
+                                                }
+                                            </div>
+                                            {isOnline[index] && (
+                                                <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                                            )}
+                                        </div>
+                                        <div className="ml-3 flex-1">
+                                            <div className="flex justify-between items-center">
+                                                <h3 className="text-sm font-medium">{user?.fullname}</h3>
+                                                {newMessageUsers?.length > 0 && newMessageUsers.find(mgs => mgs.receiverId === authUser._id && mgs.senderId === user._id) && selectedConversation?._id !== user?._id && <span className={`text-xs group-hover:text-white text-gray-500 ${selectedUserId === user?._id ? "text-white" : ""}`}>
+                                                    {user?.time || "+1"}
+                                                </span>}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            }
                         </>
                         :
                         // chat list users
@@ -177,7 +181,7 @@ const SideBar = ({ handelUserSelect }) => {
                                     <>
                                         {chatUsers.map((user, index) => (
                                             <div key={index + 2} onClick={() => handelUserClick(user)}
-                                                className={`flex items-center p-4 hover:bg-[#155DFC] hover:text-white cursor-pointer group ${selectedUserId === user?._id ? 'bg-[#155DFC] text-white' : ''}`}>
+                                                className={`flex items-center p-4 hover:bg-gray-50 cursor-pointer  ${selectedUserId === user?._id ? 'bg-gray-50' : ''}`}>
 
                                                 <div className="relative">
                                                     <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
@@ -194,7 +198,7 @@ const SideBar = ({ handelUserSelect }) => {
                                                 <div className="ml-3 flex-1">
                                                     <div className="flex justify-between items-center">
                                                         <h3 className="text-sm font-medium">{user?.fullname}</h3>
-                                                        {newMessageUsers?.length > 0 && newMessageUsers.find(mgs => mgs.receiverId === authUser._id && mgs.senderId === user._id) && selectedConversation?._id !== user?._id && <span className={`text-xs group-hover:text-white text-gray-500 ${selectedUserId === user?._id ? "text-white" : ""}`}>
+                                                        {newMessageUsers?.length > 0 && newMessageUsers.find(mgs => mgs.receiverId === authUser._id && mgs.senderId === user._id) && selectedConversation?._id !== user?._id && <span className={`text-xs text-gray-500 ${selectedUserId === user?._id ? "text-white" : ""}`}>
                                                             {user?.time || "+1"}
                                                         </span>}
 
@@ -206,76 +210,16 @@ const SideBar = ({ handelUserSelect }) => {
                                     </>
                                     :
                                     // no chat users available
-                                    <></>
+                                    <>
+                                        <div>
+                                            <h1>you are alone!</h1>
+                                            <h1>search user name to chat!</h1>
+                                        </div>
+                                    </>
                             }
                         </>
                 }
             </div>
-
-            {searchUsers?.length > 0 ?
-                (<>
-                    <div>
-                        {searchUsers.map((user, index) => (
-                            <div key={index + 1}>
-                                <div
-                                    onClick={() => handelUserClick(user)}
-                                    className={`flex gap-3 
-                                                items-center rounded 
-                                                p-2 py-1 cursor-pointer
-                                                ${selectedUserId === user?._id ? 'bg-sky-500' : ''
-                                        } `}>
-                                    <div
-                                        className={`avatar`}
-                                    >
-                                        <div className="w-12 rounded-full">
-                                            <img src={user?.profileImage} alt='user.img' />
-                                        </div>
-                                        {/* Socket is Online */}
-                                        {isOnlineSearchUser[index] && <div className='absolute top-1 right-1 w-2 h-2 rounded-full bg-green-600 border-1 border-white'></div>}
-                                    </div>
-                                    <div className='flex flex-col flex-1'>
-                                        <p className='font-bold text-gray-950'>{user.username}</p>
-                                    </div>
-                                    {/* <div>
-                                        {newMessageUsers?.receiverId === authUser._id && newMessageUsers.senderId === user._id && selectedConversation?._id !== user?._id ?
-                                            <div className="rounded-full bg-green-700 text-sm text-white px-[4px]">+1</div>
-                                            : <></>
-
-                                        }
-                                    </div> */}
-                                    {
-                                        newMessageUsers?.length > 0 && newMessageUsers.find(mgs => mgs.receiverId === authUser._id && mgs.senderId === user._id) && selectedConversation?._id !== user?._id ?
-                                            <div className="rounded-full bg-green-700 text-sm text-white px-[4px]">+1</div>
-                                            : <></>
-                                    }
-                                </div>
-                                <div className='divider divide-solid px-3 h-[1px]'></div>
-                            </div>
-                        )
-                        )}
-                    </div>
-                    <div>
-                        <button onClick={handleSearchBack} className='btn'>back</button>
-                    </div>
-                </>) :
-                (<>
-                    {
-                        chatUsers.length > 0 ? (<>
-
-                        </>) : (<>
-                            <div>
-                                <h1>you are alone!</h1>
-                                <h1>search user name to chat!</h1>
-                            </div>
-                        </>)
-                    }
-                    <div className='mt-auto px-1 py-1 flex'>
-                        <button onClick={handelLogOut} className='hover:bg-red-600  cursor-pointer hover:text-white rounded-lg btn'>
-                            Logout
-                        </button>
-                    </div>
-                </>)
-            }
         </>
     );
 };
