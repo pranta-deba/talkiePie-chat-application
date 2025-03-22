@@ -4,6 +4,7 @@ import userConversation from '../../../Zustands/userConversation';
 import axios from 'axios';
 import { useSocket } from '../../../Contexts/SocketContext';
 import notificationSound from "../../../assets/sound/notification.mp3"
+import { ArrowLeft, User } from 'lucide-react';
 
 const ChatContainer = ({ handelShowSidebar }) => {
     const { messages, selectedConversation, setMessage } = userConversation();
@@ -66,7 +67,7 @@ const ChatContainer = ({ handelShowSidebar }) => {
 
 
     return (
-        <div className='min-h-screen w-full border-2 p-2'>
+        <>
             {
                 selectedConversation === null ? (<>
                     <div>
@@ -74,25 +75,29 @@ const ChatContainer = ({ handelShowSidebar }) => {
                         <p>hey : {user?.username}</p>
                     </div>
                 </>) : (<>
-                    <div>
-                        <div className='flex justify-between gap-1 bg-sky-600 md:px-2 rounded-lg h-10 md:h-12'>
-                            <div className='flex gap-2 md:justify-between items-center w-full'>
-                                <div className='md:hidden ml-1 self-center'>
-                                    <button onClick={() => handelShowSidebar()} className=' rounded-full px-2 py-1
-                   self-center btn'>
-                                        back
-                                    </button>
-                                </div>
-                                <div className='flex justify-between mr-2 gap-2'>
-                                    <div className='self-center'>
-                                        <img className='rounded-full w-6 h-6 md:w-10 md:h-10 cursor-pointer' src={selectedConversation?.profileImage} />
-                                    </div>
-                                    <span className='text-gray-950 self-center text-sm md:text-xl font-bold'>
-                                        {selectedConversation?.username}
-                                    </span>
-                                </div>
+                    {/* Chat Header */}
+                    <div className="p-4 bg-white border-b flex items-center justify-between">
+                        <div className="flex items-center">
+                            <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                {!selectedConversation?.profileImage ? <User size={20} className="text-gray-500" /> :
+                                    <img src={selectedConversation?.profileImage} alt='user.img' />}
+                            </div>
+                            <div className="ml-3">
+                                <h2 className="text-sm font-medium">User Name</h2>
+                                <p className="text-xs text-green-500">Online</p>
                             </div>
                         </div>
+                        <button onClick={() => handelShowSidebar()} className="md:hidden p-2 hover:bg-gray-100 rounded-full cursor-pointer" title='back'>
+                            <ArrowLeft size={20} className="text-gray-500" />
+                        </button>
+                    </div>
+
+                    {/* Messages */}
+
+                    
+
+
+                    <div>
                         <div className='p-3 overflow-auto'>
 
                             {loading && (
@@ -146,7 +151,7 @@ const ChatContainer = ({ handelShowSidebar }) => {
                     </div>
                 </>)
             }
-        </div>
+        </>
     );
 };
 

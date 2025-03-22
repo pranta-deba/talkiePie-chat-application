@@ -56,7 +56,7 @@ const Home = () => {
                 <SideBar handelUserSelect={handelUserSelect} />
             </div>
 
-            {/* message container */}
+            {/* chat area */}
             <div className={`flex-1 bg-gray-50 ${selectedUser ? '' : 'hidden md:flex flex-col'}`}>
                 <ChatContainer handelShowSidebar={handelShowSidebar} />
             </div>
