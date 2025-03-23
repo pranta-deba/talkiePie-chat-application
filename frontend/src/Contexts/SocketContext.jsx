@@ -15,7 +15,7 @@ export const SocketContextProvider = ({ children }) => {
 
     useEffect(() => {
         if (user) {
-            const socket = io('http://localhost:3000/', {
+            const socket = io('https://talkie-pie-server.vercel.app/', {
                 query: {
                     userId: user?._id
                 }
