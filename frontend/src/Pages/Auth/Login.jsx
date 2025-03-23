@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { setDataIntoLocalStorage } from '../../utils/localStorage';
 import { useAuth } from '../../Contexts/AuthContext';
 import { MessageCircle, Mail, Lock, ArrowRight, Eye, EyeClosed } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 
 const Login = () => {
@@ -49,6 +50,9 @@ const Login = () => {
 
     return (
         <div className="min-h-screen w-full flex flex-col md:flex-row">
+            <Helmet>
+                <title>TalkiePie | Login</title>
+            </Helmet>
             <div className="w-full md:w-1/2 flex items-center justify-center p-8 bg-white">
                 <div className="w-full max-w-md space-y-8">
                     <div className="text-center">
@@ -143,7 +147,6 @@ const Login = () => {
                 </div>
             </div>
         </div>
-
     );
 };
 

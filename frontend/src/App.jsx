@@ -4,22 +4,26 @@ import Login from "./Pages/Auth/Login";
 import Register from "./Pages/Auth/Register";
 import AuthVerifiedRoute from "./Routes/AuthVerifiedRoute";
 import { Toaster } from 'react-hot-toast';
+import { HelmetProvider } from 'react-helmet-async';
+
 
 function App() {
 
   return (
     <>
-      <Routes>
-        <Route element={<AuthVerifiedRoute />}>
-          <Route path="/" element={<Home />} />
-        </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
-      <Toaster
-        position="top-right"
-        reverseOrder={false}
-      />
+      <HelmetProvider>
+        <Routes>
+          <Route element={<AuthVerifiedRoute />}>
+            <Route path="/" element={<Home />} />
+          </Route>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+        />
+      </HelmetProvider>
     </>
   )
 }

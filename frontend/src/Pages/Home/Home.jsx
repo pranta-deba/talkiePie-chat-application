@@ -7,6 +7,7 @@ import { useAuth } from '../../Contexts/AuthContext';
 import { removeDataFromLocalStorage } from '../../utils/localStorage';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Helmet } from 'react-helmet-async';
 
 const Home = () => {
 
@@ -54,8 +55,11 @@ const Home = () => {
 
     return (
         <div className='flex h-screen bg-gray-50'>
+            <Helmet>
+                <title>TalkiePie | Chats</title>
+            </Helmet>
             {/* side nav */}
-            <SIdeNav handelLogOut={handelLogOut} loading={loading}/>
+            <SIdeNav handelLogOut={handelLogOut} loading={loading} />
 
             {/* side bar */}
             <div className={`w-full md:w-80 bg-white md:border-r md:flex md:flex-col ${isSidebarVisible ? '' : 'hidden'}`}>
