@@ -1,6 +1,7 @@
 import { User } from "../Models/user.model.js";
 import bcrypt from "bcryptjs";
 import { createToken } from "../utils/jwtToken.js";
+import { getRandomAvatar } from "../utils/avatars.js";
 
 export const userRegisterIntoDB = async (req, res) => {
   try {
@@ -16,12 +17,10 @@ export const userRegisterIntoDB = async (req, res) => {
     }
 
     const hashPassword = bcrypt.hashSync(req.body.password, 10);
-    const profileGirl =
-      req.body.profileImage ||
-      `https://avatar.iran.liara.run/public/girl?username=${req.body.username}`;
-    const profileBoy =
-      req.body.profileImage ||
-      `https://avatar.iran.liara.run/public/boy?username=${req.body.username}`;
+
+    const avatarUrl = getRandomAvatar(
+      req.body.gender === "male" ? "boy" : "girl"
+    );
 
     const newUser = new User({
       fullname: req.body.fullname,
@@ -29,7 +28,7 @@ export const userRegisterIntoDB = async (req, res) => {
       email: req.body.email,
       gender: req.body.gender,
       password: hashPassword,
-      profileImage: req.body.gender === "male" ? profileBoy : profileGirl,
+      profileImage: avatarUrl,
     });
 
     if (newUser) {
