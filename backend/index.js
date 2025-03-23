@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import { UserRoute } from "./Routes/user.route.js";
 import { app, server } from "./Socket/socket.js";
 import cors from "cors";
+import errorHandler from "./Errors/errorHandler.js";
 
 dotenv.config();
 
@@ -32,6 +33,16 @@ app.use("/api/user", UserRoute);
 app.get("/", (req, res) => {
   res.send("Server is running!");
 });
+
+// Handle 404 errors
+app.use((req, res, next) => {
+  const error = new Error("Route not found!");
+  error.status = 404;
+  next(error);
+});
+
+// Global Error Handling Middleware
+app.use(errorHandler);
 
 server.listen(port, () => {
   dbConnect();
