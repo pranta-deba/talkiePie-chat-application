@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://talkie-pie-client.vercel.app",
+        target: "https://talkie-pie-server.vercel.app",
         secure: false,
       },
     },
