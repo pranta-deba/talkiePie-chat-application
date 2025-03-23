@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { setDataIntoLocalStorage } from '../../utils/localStorage';
 import { MessageCircle, Mail, Lock, ArrowRight, User, UserCheck, EyeClosed, Eye } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
 
 const Register = () => {
     const [loading, setLoading] = useState(false);
@@ -60,9 +59,6 @@ const Register = () => {
 
     return (
         <div className="min-h-screen w-full flex flex-col md:flex-row">
-            <Helmet>
-                <title>TalkiePie | Sign up</title>
-            </Helmet>
             <div className="w-full md:w-1/2 flex items-center justify-center p-8 bg-white">
                 <div className="w-full max-w-md space-y-8">
                     <div className="text-center">
