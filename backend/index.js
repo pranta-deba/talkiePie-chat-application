@@ -8,6 +8,7 @@ import { UserRoute } from "./Routes/user.route.js";
 import { app, server } from "./Socket/socket.js";
 import cors from "cors";
 import errorHandler from "./Errors/errorHandler.js";
+import { rootPage } from "./utils/rootRouteContent.js";
 
 dotenv.config();
 
@@ -31,7 +32,7 @@ app.use("/api/user", UserRoute);
 
 // root route
 app.get("/", (req, res) => {
-  res.send("Server is running!");
+  res.send(rootPage);
 });
 
 // Handle 404 errors
