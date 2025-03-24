@@ -12,7 +12,7 @@ TalkiePie is a real-time chat application that allows users to:
 
 ## 🌐 Live Demo
 
-[🚀 Click Here to Visit Live Application](#) _(Replace with actual URL)_
+[🚀 Click Here to Visit Live Application](https://talkie-pie-chats.onrender.com/)
 
 ## 🛠 Technologies Used
 
