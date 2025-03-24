@@ -20,10 +20,13 @@ app.use(
   cors({
     origin: FRONTEND_URL,
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+// Handle Preflight Requests
+app.options("*", cors());
 
 app.use(express.json());
 app.use(cookieParser());
