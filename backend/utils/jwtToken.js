@@ -8,6 +8,6 @@ export const createToken = (userId, res) => {
     maxAge: 30 * 24 * 60 * 60 * 1000,
     httpOnly: true,
     sameSite: "strict",
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
   });
 };
