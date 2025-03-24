@@ -44,7 +44,7 @@ const SideBar = ({ handelUserSelect }) => {
             const senderExists = chatUsers.some(user => user._id === newMessage.senderId);
 
             if (!senderExists) {
-                axios.get(`/api/user/${newMessage.senderId}`)
+                axios.get(`https://talkie-pie-chat-server.vercel.app/api/user/${newMessage.senderId}`)
                     .then(({ data }) => {
                         if (data.success) {
                             setChatUsers(prevUsers => [data.data, ...prevUsers]);
@@ -61,7 +61,7 @@ const SideBar = ({ handelUserSelect }) => {
         const fetchChatData = async () => {
             setLoading(true);
             try {
-                const { data } = await axios.get('/api/user/current-chatters');
+                const { data } = await axios.get('https://talkie-pie-chat-server.vercel.app/api/user/current-chatters');
                 if (data.success && data.data.length > 0) {
                     setChatUsers(data.data);
                     setLoading(false);
@@ -84,7 +84,7 @@ const SideBar = ({ handelUserSelect }) => {
             return;
         }
         try {
-            const { data } = await axios.get(`/api/user/search?search=${searchInput}`);
+            const { data } = await axios.get(`https://talkie-pie-chat-server.vercel.app/api/user/search?search=${searchInput}`);
             if (data.success && data.data.length === 0) {
                 toast.error('User not found!');
                 setLoading(false);

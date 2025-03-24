@@ -13,17 +13,25 @@ import { rootPage } from "./utils/rootRouteContent.js";
 dotenv.config();
 
 const port = process.env.PORT || 3000;
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 
-app.use(express.json());
-app.use(cookieParser());
 // Enable CORS
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: FRONTEND_URL,
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+app.use(express.json());
+app.use(cookieParser());
+
+// db
+dbConnect()
+  .then(() => console.log("✅ Database connected!"))
+  .catch((err) => console.error("❌ Database connection error:", err));
 
 // app route
 app.use("/api/auth", AuthRoute);
@@ -31,9 +39,7 @@ app.use("/api/message", MessageRoute);
 app.use("/api/user", UserRoute);
 
 // root route
-app.get("/", (req, res) => {
-  res.send(rootPage);
-});
+app.get("/", (req, res) => res.send(rootPage));
 
 // Handle 404 errors
 app.use((req, res, next) => {
@@ -46,6 +52,5 @@ app.use((req, res, next) => {
 app.use(errorHandler);
 
 server.listen(port, () => {
-  dbConnect();
-  // console.log(`listening on port ${port}`);
+  console.log(`🚀 Server listening on port ${port}`);
 });

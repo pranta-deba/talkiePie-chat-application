@@ -15,7 +15,7 @@ export const SocketContextProvider = ({ children }) => {
 
     useEffect(() => {
         if (user) {
-            const socket = io('https://talkie-pie-server.vercel.app/', {
+            const socket = io('https://talkie-pie-chat-server.vercel.app/', {
                 query: {
                     userId: user?._id
                 }
