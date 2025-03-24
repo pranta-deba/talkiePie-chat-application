@@ -9,6 +9,9 @@ import { app, server } from "./Socket/socket.js";
 import cors from "cors";
 import errorHandler from "./Errors/errorHandler.js";
 import { rootPage } from "./utils/rootRouteContent.js";
+import path from "path";
+
+const __dirname = path.resolve();
 
 dotenv.config();
 
@@ -46,6 +49,12 @@ dbConnect()
 app.use("/api/auth", AuthRoute);
 app.use("/api/message", MessageRoute);
 app.use("/api/user", UserRoute);
+
+// Serve static files from the frontend folder (after build)
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+});
 
 // root route
 app.get("/", (req, res) => res.send(rootPage));

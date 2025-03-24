@@ -1,0 +1,22 @@
+{
+  "name": "chat-app",
+  "version": "1.0.0",
+  "description": "TalkiePie is a real-time chat application that allows users to:",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon backend/index.js",
+    "start": "node backend/index.js",
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pranta-deba/talkiePie-chat-application.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pranta-deba/talkiePie-chat-application/issues"
+  },
+  "homepage": "https://github.com/pranta-deba/talkiePie-chat-application#readme"
+}
