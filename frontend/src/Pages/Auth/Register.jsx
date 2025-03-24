@@ -35,7 +35,7 @@ const Register = () => {
         }
 
         try {
-            const { data } = await axios.post('https://talkie-pie-chat-server.vercel.app/api/auth/register', {
+            const { data } = await axios.post('/api/auth/register', {
                 fullname: formData.fullName,
                 username: formData.username,
                 email: formData.email,

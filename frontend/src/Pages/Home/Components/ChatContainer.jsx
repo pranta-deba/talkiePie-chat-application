@@ -48,7 +48,7 @@ const ChatContainer = ({ handelShowSidebar }) => {
         const getMessages = async () => {
             setLoading(true);
             try {
-                const { data } = await axios.get(`https://talkie-pie-chat-server.vercel.app/api/message/${selectedConversation._id}`);
+                const { data } = await axios.get(`/api/message/${selectedConversation._id}`);
                 setMessage(data.data);
                 setLoading(false);
             } catch (error) {
@@ -68,7 +68,7 @@ const ChatContainer = ({ handelShowSidebar }) => {
         setSending(true);
         const message = sendData;
         try {
-            const { data } = await axios.post(`https://talkie-pie-chat-server.vercel.app/api/message/send/${selectedConversation._id}`, { message });
+            const { data } = await axios.post(`/api/message/send/${selectedConversation._id}`, { message });
             setMessage([...messages, data?.data]);
             setSendData('');
             setSending(false);

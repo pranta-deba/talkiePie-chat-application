@@ -40,7 +40,7 @@ const Modals = ({ setProfileModal }) => {
         }
 
         try {
-            const { data } = await axios.put("https://talkie-pie-chat-server.vercel.app/api/user/update", formData);
+            const { data } = await axios.put("/api/user/update", formData);
             if (data.success) {
                 toast.success("Profile updated successfully");
                 setLoading(false);

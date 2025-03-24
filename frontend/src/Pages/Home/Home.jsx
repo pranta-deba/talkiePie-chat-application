@@ -32,7 +32,7 @@ const Home = () => {
         if (confirmLogout === user.username) {
             setLoading(true);
             try {
-                const { data } = await axios.post('https://talkie-pie-chat-server.vercel.app/api/auth/logout');
+                const { data } = await axios.post('/api/auth/logout');
                 if (data.success) {
                     toast.success(data.message);
                     removeDataFromLocalStorage();

@@ -30,7 +30,7 @@ const Login = () => {
         }
 
         try {
-            const { data } = await axios.post('https://talkie-pie-chat-server.vercel.app/api/auth/login', formData);
+            const { data } = await axios.post('/api/auth/login', formData);
             if (data.success) {
                 toast.success(data.message);
                 setDataIntoLocalStorage(data.data);

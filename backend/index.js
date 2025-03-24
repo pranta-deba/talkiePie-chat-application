@@ -19,31 +19,19 @@ const port = process.env.PORT || 3000;
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 
 // Enable CORS
-pp.use(
+app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || origin === FRONTEND_URL) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: FRONTEND_URL,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
 // Handle Preflight Requests
 app.options("*", cors());
 
 app.use(express.json());
 app.use(cookieParser());
-
-// db
-dbConnect()
-  .then(() => console.log("✅ Database connected!"))
-  .catch((err) => console.error("❌ Database connection error:", err));
 
 // app route
 app.use("/api/auth", AuthRoute);
@@ -70,5 +58,7 @@ app.use((req, res, next) => {
 app.use(errorHandler);
 
 server.listen(port, () => {
+  // db
+  dbConnect();
   console.log(`🚀 Server listening on port ${port}`);
 });
